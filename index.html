@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -55,13 +55,14 @@
         <span>Commercial Real Estate</span><i></i><span>Delhi&nbsp;NCR</span>
       </div>
       <h1 class="hero-h1">
-        We turn commercial <br class="hb"><em>space</em> into <br class="hb">performing <em>assets.</em>
+        We turn commercial <br class="hb"><em class="plain">space</em> into <br class="hb">performing <em>assets.</em>
       </h1>
       <p class="hero-lead">BBRE Commercial helps landlords, businesses and investors across Delhi NCR lease, furnish and monetise commercial real estate — advisory to handover, end to end.</p>
       <div class="hero-actions">
         <a href="#services" class="btn-solid">Explore services</a>
         <a href="#contact" class="btn-line">Share a requirement</a>
       </div>
+      <p class="hero-proof reveal-up">2.5M+ sq ft transacted<i></i>260+ deals closed<i></i>12 years in Delhi&nbsp;NCR</p>
     </div>
     <div class="hero-fig-col">
       <figure class="fig">
@@ -99,28 +100,13 @@
   </div>
 </section>
 
-<!-- CLIENTS — two groups, opposite-scrolling logo walls -->
+<!-- CLIENTS — sleek static logo wall -->
 <section class="clients">
-  <div class="aura aura--amber" style="width:52vw;height:30vw;top:-14%;left:50%;transform:translateX(-50%)" aria-hidden="true"></div>
-  <p class="kicker clients-kicker reveal-up">Trusted across Delhi NCR</p>
-  <div class="client-rows">
-    <div class="client-row reveal-up">
-      <span class="client-row-label">Landlords &amp; developers</span>
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-          <span>DLF</span><span>WeWork</span><span>Embassy</span><span>M3M</span><span>Max Estates</span><span>Bharti Realty</span><span>Godrej</span><span>Hines</span>
-          <span>DLF</span><span>WeWork</span><span>Embassy</span><span>M3M</span><span>Max Estates</span><span>Bharti Realty</span><span>Godrej</span><span>Hines</span>
-        </div>
-      </div>
-    </div>
-    <div class="client-row reveal-up">
-      <span class="client-row-label">Occupiers &amp; brands</span>
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track marquee-track--rev">
-          <span>P&amp;G</span><span>Cvent</span><span>Paytm</span><span>American Express</span><span>Shoppers Stop</span><span>TATA 1mg</span><span>Genpact</span><span>Zomato</span>
-          <span>P&amp;G</span><span>Cvent</span><span>Paytm</span><span>American Express</span><span>Shoppers Stop</span><span>TATA 1mg</span><span>Genpact</span><span>Zomato</span>
-        </div>
-      </div>
+  <div class="client-inner">
+    <p class="clients-anchor reveal-up">Trusted by businesses, landlords &amp; investors</p>
+    <div class="client-wall reveal-up">
+      <span>DLF</span><span>WeWork</span><span>Embassy</span><span>M3M</span><span>Max Estates</span><span>Bharti Realty</span>
+      <span>P&amp;G</span><span>Cvent</span><span>Paytm</span><span>American Express</span><span>Shoppers Stop</span><span>TATA 1mg</span>
     </div>
   </div>
 </section>
@@ -541,12 +527,27 @@
 
 <!-- CONTACT -->
 <section class="cta" id="contact">
-    <div class="deco deco-skyline" aria-hidden="true">
+    <div class="deco deco-skyline deco-floorplan" aria-hidden="true">
       <svg viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax meet">
-        <polyline points="0,220 0,150 60,150 60,110 130,110 130,160 210,160 210,80 300,80 300,140 380,140 380,60 470,60 470,130 560,130 560,100 650,100 650,44 740,44 740,120 840,120 840,90 930,90 930,150 1020,150 1020,72 1120,72 1120,130 1210,130 1210,100 1300,100 1300,150 1380,150 1380,120 1440,120 1440,220" stroke-width="1.4"/>
-        <line x1="250" y1="100" x2="250" y2="220" stroke-dasharray="2 11"/>
-        <line x1="700" y1="64" x2="700" y2="220" stroke-dasharray="2 11"/>
-        <line x1="1060" y1="92" x2="1060" y2="220" stroke-dasharray="2 11"/>
+        <!-- outer wall -->
+        <rect x="60" y="30" width="1320" height="180" fill="none" stroke-width="1.4"/>
+        <!-- partitions -->
+        <line x1="360" y1="30" x2="360" y2="210"/>
+        <line x1="1080" y1="30" x2="1080" y2="210"/>
+        <line x1="60" y1="120" x2="360" y2="120"/>
+        <line x1="1080" y1="120" x2="1380" y2="120"/>
+        <line x1="1230" y1="120" x2="1230" y2="210"/>
+        <!-- central service core -->
+        <rect x="650" y="86" width="140" height="68" fill="none" stroke-width="1.4"/>
+        <line x1="720" y1="86" x2="720" y2="154"/>
+        <!-- workstation clusters -->
+        <line x1="430" y1="72" x2="590" y2="72"/><line x1="430" y1="112" x2="590" y2="112"/><line x1="510" y1="52" x2="510" y2="132"/>
+        <line x1="850" y1="72" x2="1010" y2="72"/><line x1="850" y1="112" x2="1010" y2="112"/><line x1="930" y1="52" x2="930" y2="132"/>
+        <!-- door swings -->
+        <path d="M360 150 A34 34 0 0 1 394 184" fill="none"/>
+        <path d="M1080 150 A34 34 0 0 0 1046 184" fill="none"/>
+        <!-- top dimension line -->
+        <line x1="60" y1="16" x2="1380" y2="16" stroke-dasharray="2 10"/>
       </svg>
     </div>
     <div class="aura aura--rose" style="width:46vw;height:46vw;top:-22%;left:-6%" aria-hidden="true"></div>
@@ -554,15 +555,15 @@
   <div class="cta-inner">
     <p class="kicker reveal-up"><span class="k-idx">06</span>Get in touch</p>
     <h2 class="reveal-up">Let's build <em>value</em><br>from your space.</h2>
-    <p class="cta-sub reveal-up">Landlord, business or investor — tell us what you need and we'll take it from there.</p>
+    <p class="cta-sub reveal-up">Landlord, business or investor — tell us what you need and we'll take it from there. <span class="cta-promise">Replies within one working day.</span></p>
     <div class="cta-actions reveal-up">
+      <a href="#" class="cta-tile cta-tile--primary">
+        <span class="cta-tile-label">WhatsApp<i class="wa-dot" aria-hidden="true"></i></span>
+        <span class="cta-tile-value">Chat with our desk →</span>
+      </a>
       <a href="tel:+911140843600" class="cta-tile">
         <span class="cta-tile-label">Call us</span>
         <span class="cta-tile-value">+91 11 4084 3600</span>
-      </a>
-      <a href="#" class="cta-tile">
-        <span class="cta-tile-label">WhatsApp</span>
-        <span class="cta-tile-value">Chat with us →</span>
       </a>
       <a href="#" class="cta-tile">
         <span class="cta-tile-label">Share your requirement</span>
@@ -589,6 +590,14 @@
       <a href="#contact">Contact</a>
     </div>
   </div>
+  <div class="footer-legal">
+    <span>BBRE Commercial Pvt.&nbsp;Ltd.</span>
+    <span>Regd. Office — Gurugram, Haryana</span>
+    <span>GSTIN 06XXXXXXXXXXXX</span>
+    <span>CIN U70100HR20XXPTCXXXXXX</span>
+    <span>Est. 2014</span>
+  </div>
+  <p class="footer-note">Client marks shown denote select associations and project experience across advisory, managed workspaces and fit-out coordination.</p>
   <p class="footer-copy">© 2026 BBRE Commercial. All rights reserved.</p>
 </footer>
 

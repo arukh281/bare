@@ -205,7 +205,7 @@ ol, ul { list-style: none; }
 }
 .hero-grid {
   max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
-  display: grid; grid-template-columns: 1.25fr 0.75fr; gap: clamp(2rem, 5vw, 5rem);
+  display: grid; grid-template-columns: 1.3fr 0.7fr; gap: clamp(2rem, 5vw, 5rem);
   align-items: end;
 }
 .topline {
@@ -217,9 +217,9 @@ ol, ul { list-style: none; }
 .hero-h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
-  line-height: 1.06;
-  letter-spacing: -0.005em;
+  font-size: clamp(2.4rem, 5.2vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.008em;
   color: var(--ink);
   max-width: 11em;
 }
@@ -229,6 +229,17 @@ ol, ul { list-style: none; }
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: var(--burgundy);
 }
+/* second emphasis word stays plain ink italic — one gilded word per headline */
+.hero-h1 em.plain {
+  background: none; -webkit-text-fill-color: currentColor; color: var(--ink);
+}
+.hero-proof {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.85rem;
+  margin-top: 2rem;
+  font-family: var(--sans); font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.hero-proof i { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0.8; }
 .hero-lead {
   margin-top: 2rem;
   font-size: clamp(1rem, 1.3vw, 1.12rem);
@@ -532,47 +543,39 @@ html:not(.js) .persona-panel {
 }
 
 /* ============================================================
-   CLIENTS — marquee
+   CLIENTS — sleek static logo wall
    ============================================================ */
 .clients {
-  position: relative;
-  overflow: hidden;
-  /* warm wash + gold crown + faint rose bloom so the logo wall reads intentional, not grey */
-  background:
-    radial-gradient(120% 92% at 50% -20%, rgba(199,154,62,0.20), transparent 55%),
-    radial-gradient(70% 120% at 88% 118%, rgba(161,60,63,0.10), transparent 60%),
-    linear-gradient(180deg, var(--card) 0%, var(--paper-3) 55%, var(--card) 100%);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: clamp(46px, 6vw, 76px) 0;
-  text-align: center;
+  padding: clamp(52px, 7vw, 88px) 0;
+  background: var(--paper);
 }
-.clients .aura { z-index: 0; }
-.clients .aura--amber { background: radial-gradient(closest-side, rgba(199,154,62,0.20), transparent 76%); }
-.clients-kicker { justify-content: center; margin-bottom: clamp(1.9rem, 3.5vw, 2.6rem); position: relative; z-index: 1; }
-.clients-kicker::before { display: none; }
-
-/* two groups, one scrolling each way */
-.client-rows { position: relative; z-index: 1; display: flex; flex-direction: column; gap: clamp(1.6rem, 3vw, 2.2rem); }
-.client-row-label {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  font-family: var(--sans); font-size: 0.62rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted);
-  margin-bottom: 0.9rem;
+.client-inner { width: min(1120px, 100% - 4rem); margin-inline: auto; }
+.clients-anchor {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: clamp(1.9rem, 3.5vw, 2.9rem);
 }
-.client-row-label::before {
-  content: ''; width: 5px; height: 5px; border-radius: 50%;
-  background: var(--gold); flex-shrink: 0;
+.client-wall {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  gap: clamp(1.7rem, 3vw, 2.6rem) clamp(1.4rem, 3.5vw, 3rem);
+  align-items: center;
 }
-
-.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-.marquee-track { display: inline-flex; gap: 3.5rem; white-space: nowrap; animation: marquee 34s linear infinite; }
-.marquee-track--rev { animation-direction: reverse; }   /* opposite direction */
-.marquee-track span {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  font-size: 1.5rem; color: #A2957E; letter-spacing: 0.01em;   /* warm taupe, was cool grey */
+.client-wall span {
+  font-family: var(--sans); font-weight: 500;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  color: var(--ink); opacity: 0.4; text-align: center;
+  letter-spacing: 0.01em; white-space: nowrap;
+  transition: opacity .3s var(--ease);
 }
-@keyframes marquee { to { transform: translateX(-50%); } }
+.client-wall span:hover { opacity: 0.88; }
+@media (max-width: 720px) { .client-wall { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) {
+  .client-inner { width: min(1120px, 100% - 2.5rem); }
+  .client-wall { grid-template-columns: repeat(2, 1fr); gap: 1.6rem 1rem; }
+  .client-wall span { font-size: 0.92rem; }
+}
 
 /* ============================================================
    "Fit-out" — signature animated term.
@@ -726,6 +729,13 @@ html:not(.js) .persona-panel {
 .cta-tile:hover { background: rgba(241,236,224,0.06); }
 .cta-tile-label { font-family: var(--sans); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-navy-soft); }
 .cta-tile-value { font-family: var(--serif); font-size: 1.02rem; color: var(--on-navy); }
+/* WhatsApp is the primary channel for this audience — give it weight */
+.cta-tile--primary { background: rgba(199,154,62,0.12); position: relative; }
+.cta-tile--primary::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gold); }
+.cta-tile--primary:hover { background: rgba(199,154,62,0.18); }
+.cta-tile--primary .cta-tile-label { color: var(--on-navy); }
+.wa-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3FA45E; margin-left: 0.55rem; vertical-align: middle; box-shadow: 0 0 0 3px rgba(63,164,94,0.18); }
+.cta-promise { display: inline-block; color: var(--gold-2); font-weight: 500; }
 
 /* ============================================================
    FOOTER
@@ -742,7 +752,15 @@ html:not(.js) .persona-panel {
 .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
 .footer-links a { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); transition: color .2s; }
 .footer-links a:hover { color: var(--deep); }
-.footer-copy { max-width: 1180px; margin: 1.5rem auto 0; font-size: 0.72rem; color: var(--muted); text-align: center; }
+/* institutional stationery — Indian corporate buyers scan for exactly this */
+.footer-legal {
+  max-width: 1180px; margin: 1.5rem auto 0;
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; justify-content: center;
+  font-family: var(--sans); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.footer-note { max-width: 720px; margin: 0.9rem auto 0; font-size: 0.68rem; line-height: 1.5; color: var(--muted); text-align: center; padding: 0 1.5rem; }
+.footer-copy { max-width: 1180px; margin: 1.1rem auto 0; font-size: 0.72rem; color: var(--muted); text-align: center; }
 
 /* ============================================================
    RESPONSIVE
@@ -911,10 +929,16 @@ html:not(.js) .persona-panel {
 .dial-point:hover .dial-name { color: var(--ink); }
 .who-panels { display: grid; }
 .who-slide {
-  grid-area: 1 / 1; opacity: 0; transform: translateY(14px); pointer-events: none;
-  transition: opacity .5s var(--ease), transform .5s var(--ease);
+  grid-area: 1 / 1; opacity: 0; transform: translateY(8px); pointer-events: none;
+  z-index: 0;
+  /* outgoing panel fades out fast and on its own — no simultaneous crossfade */
+  transition: opacity .14s var(--ease);
 }
-.who-slide.is-active { opacity: 1; transform: none; pointer-events: auto; }
+.who-slide.is-active {
+  opacity: 1; transform: none; pointer-events: auto; z-index: 1;
+  /* incoming waits for the old panel to clear, then rises in */
+  transition: opacity .22s var(--ease) .14s, transform .32s var(--ease) .14s;
+}
 @media (max-width: 900px) {
   .who-scroll { height: auto; }
   .who-sticky { position: static; height: auto; padding: clamp(46px, 6vw, 82px) 0; }
