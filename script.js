@@ -1,0 +1,142 @@
+// ---- Count-up animation for credentials band ----
+const countEls = Array.from(document.querySelectorAll('[data-count]'));
+
+function writeCountFinal(el) {
+  const target  = parseFloat(el.dataset.count);
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  const suffix   = el.dataset.suffix || '';
+  el.textContent = target.toFixed(decimals) + suffix;
+}
+
+// Safety-net / no-JS fallback: write final values immediately.
+countEls.forEach(writeCountFinal);
+
+function animateCount(el) {
+  const target   = parseFloat(el.dataset.count);
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  const suffix   = el.dataset.suffix || '';
+  const duration = 1400;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const elapsed  = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = (target * eased).toFixed(decimals) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReduced && 'IntersectionObserver' in window && countEls.length) {
+  const bandIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('[data-count]').forEach(animateCount);
+        bandIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const band = document.querySelector('.band');
+  if (band) bandIO.observe(band);
+}
+
+// ---- Nav scroll state ----
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ---- Mobile menu ----
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'))
+);
+
+// ---- Scroll reveal (robust: never leaves content hidden) ----
+const revealEls = Array.from(document.querySelectorAll('.reveal-up'));
+
+function revealAll() {
+  revealEls.forEach(el => el.classList.add('in-view'));
+}
+
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // subtle stagger for siblings entering together
+        const delay = Math.min(i * 60, 240);
+        setTimeout(() => entry.target.classList.add('in-view'), delay);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  revealEls.forEach(el => io.observe(el));
+
+  // Safety net: if anything is still hidden shortly after load, show it.
+  window.addEventListener('load', () => setTimeout(revealAll, 2500));
+} else {
+  revealAll();
+}
+
+// ---- Who We Help: scroll-pinned persona dial ----
+(function () {
+  const scroll = document.querySelector('.who-scroll');
+  if (!scroll) return;
+  const points = Array.from(document.querySelectorAll('.dial-point'));
+  const slides = Array.from(document.querySelectorAll('.who-slide'));
+  const progressArc = document.querySelector('.dial-progress');
+  const N = slides.length;
+  if (!N) return;
+  let current = -1;
+
+  const pinned = () =>
+    window.matchMedia('(min-width: 901px)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setActive(i) {
+    if (i === current) return;
+    current = i;
+    points.forEach((p, k) => {
+      const on = k === i;
+      p.classList.toggle('is-active', on);
+      p.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
+  }
+
+  function update() {
+    if (!pinned()) { setActive(current < 0 ? 0 : current); return; }
+    const rect = scroll.getBoundingClientRect();
+    const total = scroll.offsetHeight - window.innerHeight;
+    let p = total > 0 ? (-rect.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+    setActive(Math.min(N - 1, Math.floor(p * N + 0.0001)));
+    if (progressArc) progressArc.style.strokeDashoffset = String(1 - p);
+  }
+
+  points.forEach((pt, i) => {
+    pt.addEventListener('click', () => {
+      if (!pinned()) { setActive(i); slides[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      const rect = scroll.getBoundingClientRect();
+      const wrapTop = rect.top + window.scrollY;
+      const total = scroll.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: wrapTop + ((i + 0.5) / N) * total, behavior: 'smooth' });
+    });
+  });
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  setActive(0);
+  update();
+})();
