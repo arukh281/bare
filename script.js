@@ -149,6 +149,8 @@ if ('IntersectionObserver' in window) {
   const links = Array.from(rail.querySelectorAll('.chapter'));
   const sections = links.map(a => document.querySelector(a.getAttribute('href')));
   const hero = document.querySelector('.hero');
+  // dark-background sections the fixed rail passes over — switch to light ink there
+  const darkSections = ['.band', '.cta'].map(s => document.querySelector(s)).filter(Boolean);
   function update() {
     const doc = document.documentElement;
     const max = doc.scrollHeight - window.innerHeight;
@@ -161,9 +163,73 @@ if ('IntersectionObserver' in window) {
     let idx = 0;
     sections.forEach((s, i) => { if (s && s.offsetTop <= mid) idx = i; });
     links.forEach((a, i) => a.classList.toggle('is-active', i === idx));
+    // is the rail currently overlapping a dark section?
+    const railY = window.scrollY + window.innerHeight / 2;
+    let onDark = false;
+    darkSections.forEach(s => { const top = s.offsetTop; if (railY >= top && railY < top + s.offsetHeight) onDark = true; });
+    rail.classList.toggle('on-dark', onDark);
   }
   let t = false;
   window.addEventListener('scroll', () => { if (!t) { requestAnimationFrame(() => { update(); t = false; }); t = true; } }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
+
+// ---- Raw-space → asset: pinned journey ----
+(function () {
+  const scroll = document.querySelector('.journey-scroll');
+  if (!scroll) return;
+  const nums = Array.from(scroll.querySelectorAll('.j-nums li'));
+  const fill = scroll.querySelector('.j-fill');
+  const panels = Array.from(scroll.querySelectorAll('.j-panel'));
+  const layers = Array.from(scroll.querySelectorAll('.fl-layer'));
+  const stageName = scroll.querySelector('.floor-stage-name');
+  const mRent = scroll.querySelector('[data-m="rent"]');
+  const mOcc = scroll.querySelector('[data-m="occ"]');
+  const mYield = scroll.querySelector('[data-m="yield"]');
+  const N = 6;
+  const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
+
+  const pinned = () => window.matchMedia('(min-width: 901px)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Indian digit grouping: 1850000 -> 18,50,000
+  function inr(n) {
+    n = Math.round(n); const s = String(n);
+    if (s.length <= 3) return s;
+    const last3 = s.slice(-3);
+    const rest = s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+    return rest + ',' + last3;
+  }
+  const lerp = (p, a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
+
+  let cur = -1;
+  function render(p) {
+    const stage = Math.min(N - 1, Math.floor(p * N + 0.0001));
+    const rent = lerp(p, 0.30, 0.70) * 1850000;
+    const occ = lerp(p, 0.16, 0.66) * 100;
+    if (mRent) mRent.textContent = rent < 1000 ? '—' : '₹' + inr(rent);
+    if (mOcc) mOcc.textContent = Math.round(occ) + '%';
+    if (mYield) mYield.textContent = p > 0.82 ? '8.2%' : '—';
+    if (fill) fill.style.width = (stage / (N - 1) * 100) + '%';
+    if (stage === cur) return;
+    cur = stage;
+    nums.forEach((li, i) => { li.classList.toggle('is-active', i === stage); li.classList.toggle('is-done', i < stage); });
+    panels.forEach((pl, i) => pl.classList.toggle('is-active', i === stage));
+    layers.forEach(ly => ly.classList.toggle('is-on', stage >= +ly.dataset.stage));
+    if (stageName) stageName.textContent = names[stage];
+  }
+
+  function update() {
+    if (!pinned()) { render(1); return; }   // static final state on mobile / reduced-motion
+    const rect = scroll.getBoundingClientRect();
+    const total = scroll.offsetHeight - window.innerHeight;
+    let p = total > 0 ? (-rect.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+    render(p);
+  }
+  let ticking = false;
+  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
   window.addEventListener('resize', update, { passive: true });
   update();
 })();

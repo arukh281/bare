@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=23" />
+  <link rel="stylesheet" href="styles.css?v=25" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -288,65 +288,84 @@
   </div>
 </section>
 
-<!-- PROCESS -->
-<section class="proc-section section-pad" id="journey">
-    <div class="deco deco-plan deco--ink" aria-hidden="true">
-      <svg viewBox="0 0 420 300" preserveAspectRatio="xMidYMid meet">
-        <rect x="20" y="20" width="380" height="240" stroke-width="1.4"/>
-        <line x1="150" y1="20" x2="150" y2="260"/>
-        <line x1="150" y1="150" x2="400" y2="150"/>
-        <line x1="270" y1="150" x2="270" y2="260"/>
-        <circle cx="85" cy="90" r="30"/>
-        <line x1="55" y1="90" x2="115" y2="90"/><line x1="85" y1="60" x2="85" y2="120"/>
-        <path d="M150 210 A40 40 0 0 1 190 250"/>
-        <line x1="20" y1="8" x2="400" y2="8" stroke-dasharray="2 7"/>
-      </svg>
-    </div>
-    <div class="aura aura--amber" style="width:40vw;height:40vw;bottom:-14%;right:-6%" aria-hidden="true"></div>
-  <div class="container">
-    <div class="section-head">
-      <p class="kicker reveal-up"><span class="k-idx">03</span>The process</p>
-      <h2 class="reveal-up">From raw space to<br>income-generating asset.</h2>
-      <p class="section-sub reveal-up">We take a landlord's bare commercial unit and walk it through every stage — until it's leased, furnished and earning.</p>
-    </div>
-  </div>
-  <div class="proc-scroll">
-    <div class="proc" id="proc">
-      <div class="proc-step reveal-up">
-        <div class="proc-num">01</div>
-        <div class="proc-bar"></div>
-        <h4>Raw Space</h4>
-        <p>We assess your vacant commercial unit and define the opportunity.</p>
-      </div>
-      <div class="proc-step reveal-up">
-        <div class="proc-num">02</div>
-        <div class="proc-bar"></div>
-        <h4>Tenant ID</h4>
-        <p>We identify and qualify the right tenant for the space.</p>
-      </div>
-      <div class="proc-step reveal-up">
-        <div class="proc-num">03</div>
-        <div class="proc-bar"></div>
-        <h4><span class="fitout">Fit-Out</span></h4>
-        <p>We design and build a workspace that commands premium rent.</p>
-      </div>
-      <div class="proc-step reveal-up">
-        <div class="proc-num">04</div>
-        <div class="proc-bar"></div>
-        <h4>Lease Execution</h4>
-        <p>We structure strong leases — clear terms, escalations and exit clauses.</p>
-      </div>
-      <div class="proc-step reveal-up">
-        <div class="proc-num">05</div>
-        <div class="proc-bar"></div>
-        <h4>Rental Income</h4>
-        <p>The asset is occupied, leased and generating consistent monthly income.</p>
-      </div>
-      <div class="proc-step reveal-up">
-        <div class="proc-num">06</div>
-        <div class="proc-bar last"></div>
-        <h4>Pre-Leased Sale</h4>
-        <p>Optionally sell as a pre-leased investment to unlock capital.</p>
+<!-- PROCESS — pinned raw-space → asset journey -->
+<section class="proc-section" id="journey">
+  <div class="journey-scroll">
+    <div class="journey-sticky">
+      <div class="aura aura--amber" style="width:42vw;height:42vw;bottom:-16%;right:-8%" aria-hidden="true"></div>
+      <div class="container">
+        <div class="section-head reveal-up">
+          <p class="kicker"><span class="k-idx">03</span>The process</p>
+          <h2>From raw space to<br>income-generating asset.</h2>
+        </div>
+        <div class="journey-stage">
+          <figure class="journey-visual reveal-up">
+            <svg class="floor-svg" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g class="fl-shell">
+                <line x1="48" y1="26" x2="432" y2="26" stroke="#C7C1B2" stroke-width="1" stroke-dasharray="2 8"/>
+                <rect x="48" y="42" width="384" height="256" fill="none" stroke="#1D1B17" stroke-width="1.6"/>
+                <rect x="214" y="140" width="52" height="58" fill="none" stroke="#1D1B17" stroke-width="1.3"/>
+                <line x1="240" y1="140" x2="240" y2="198" stroke="#1D1B17" stroke-width="1"/>
+                <g fill="#1D1B17"><circle cx="150" cy="108" r="3"/><circle cx="150" cy="232" r="3"/><circle cx="330" cy="108" r="3"/><circle cx="330" cy="232" r="3"/></g>
+              </g>
+              <g class="fl-layer fl-tenant" data-stage="1">
+                <rect x="60" y="54" width="126" height="98" fill="#A47E33" opacity="0.10"/>
+                <circle cx="74" cy="68" r="3.5" fill="#A47E33"/>
+                <text x="84" y="72" font-family="ui-monospace, Menlo, monospace" font-size="9" fill="#A47E33" letter-spacing="1">TENANT</text>
+              </g>
+              <g class="fl-layer fl-fitout" data-stage="2" stroke="#1D1B17" fill="none">
+                <line x1="150" y1="42" x2="150" y2="298" stroke-width="1"/>
+                <line x1="330" y1="42" x2="330" y2="298" stroke-width="1"/>
+                <line x1="48" y1="176" x2="150" y2="176" stroke-width="1"/>
+                <rect x="66" y="196" width="26" height="16"/><rect x="100" y="196" width="26" height="16"/>
+                <rect x="66" y="222" width="26" height="16"/><rect x="100" y="222" width="26" height="16"/>
+                <rect x="66" y="248" width="26" height="16"/><rect x="100" y="248" width="26" height="16"/>
+                <rect x="350" y="70" width="26" height="16"/><rect x="384" y="70" width="26" height="16"/>
+                <rect x="350" y="96" width="26" height="16"/><rect x="384" y="96" width="26" height="16"/>
+                <rect x="350" y="230" width="26" height="16"/><rect x="384" y="230" width="26" height="16"/>
+                <rect x="64" y="70" width="64" height="34" rx="4" stroke-width="1"/>
+              </g>
+              <g class="fl-layer fl-income" data-stage="4" fill="#A13C3F">
+                <circle cx="79" cy="204" r="2.3"/><circle cx="113" cy="204" r="2.3"/>
+                <circle cx="79" cy="230" r="2.3"/><circle cx="113" cy="230" r="2.3"/>
+                <circle cx="79" cy="256" r="2.3"/><circle cx="113" cy="256" r="2.3"/>
+                <circle cx="363" cy="78" r="2.3"/><circle cx="397" cy="78" r="2.3"/>
+                <circle cx="363" cy="104" r="2.3"/><circle cx="397" cy="238" r="2.3"/>
+              </g>
+              <g class="fl-layer fl-lease" data-stage="3" transform="rotate(-7 384 274)">
+                <rect x="340" y="258" width="88" height="30" fill="none" stroke="#A13C3F" stroke-width="1.4"/>
+                <text x="384" y="277" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#A13C3F" letter-spacing="2">LEASED</text>
+              </g>
+              <g class="fl-layer fl-sold" data-stage="5">
+                <rect x="38" y="32" width="404" height="276" fill="none" stroke="#A47E33" stroke-width="1.6"/>
+                <rect x="150" y="152" width="180" height="36" fill="#A47E33"/>
+                <text x="240" y="175" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#FBF9F4" letter-spacing="3">PRE-LEASED</text>
+              </g>
+            </svg>
+            <figcaption class="floor-cap"><span class="fig-tag">Fig. 03</span><span class="floor-stage-name">Bare shell</span></figcaption>
+          </figure>
+          <div class="journey-readout reveal-up">
+            <div class="j-steps">
+              <ol class="j-nums">
+                <li class="is-active">01</li><li>02</li><li>03</li><li>04</li><li>05</li><li>06</li>
+              </ol>
+              <div class="j-track"><span class="j-fill"></span></div>
+            </div>
+            <div class="j-panels">
+              <article class="j-panel is-active" data-i="0"><h4>Raw space</h4><p>We assess your vacant commercial unit and define the opportunity — location, floor plate, the achievable rent.</p></article>
+              <article class="j-panel" data-i="1"><h4>Tenant identification</h4><p>We source and vet the right tenant — the covenant that underwrites your rent for years.</p></article>
+              <article class="j-panel" data-i="2"><h4><span class="fitout">Fit-out</span></h4><p>We design and build a workspace that commands premium rent — full execution under one roof.</p></article>
+              <article class="j-panel" data-i="3"><h4>Lease execution</h4><p>We structure a strong lease — clear terms, escalations and exit clauses, in writing.</p></article>
+              <article class="j-panel" data-i="4"><h4>Rental income</h4><p>The floor is occupied and leased, generating consistent monthly income for the owner.</p></article>
+              <article class="j-panel" data-i="5"><h4>Pre-leased sale</h4><p>Optionally sell the tenanted floor as a pre-leased asset — unlocking capital at a premium.</p></article>
+            </div>
+            <div class="j-metrics">
+              <div class="j-metric"><strong data-m="rent">—</strong><span>Monthly rent</span></div>
+              <div class="j-metric"><strong data-m="occ">0%</strong><span>Occupancy</span></div>
+              <div class="j-metric"><strong data-m="yield">—</strong><span>Net yield</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -636,6 +655,6 @@
   <p class="footer-copy">© 2026 BBRE Commercial. All rights reserved.</p>
 </footer>
 
-<script src="script.js?v=17"></script>
+<script src="script.js?v=24"></script>
 </body>
 </html>
