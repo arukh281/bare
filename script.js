@@ -183,10 +183,8 @@ if ('IntersectionObserver' in window) {
   const fill = scroll.querySelector('.j-fill');
   const panels = Array.from(scroll.querySelectorAll('.j-panel'));
   const layers = Array.from(scroll.querySelectorAll('.fl-layer'));
+  const checks = Array.from(scroll.querySelectorAll('.j-checks li'));
   const stageName = scroll.querySelector('.floor-stage-name');
-  const mRent = scroll.querySelector('[data-m="rent"]');
-  const mOcc = scroll.querySelector('[data-m="occ"]');
-  const mYield = scroll.querySelector('[data-m="yield"]');
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
 
@@ -194,29 +192,17 @@ if ('IntersectionObserver' in window) {
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Indian digit grouping: 1850000 -> 18,50,000
-  function inr(n) {
-    n = Math.round(n); const s = String(n);
-    if (s.length <= 3) return s;
-    const last3 = s.slice(-3);
-    const rest = s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',');
-    return rest + ',' + last3;
-  }
-  const lerp = (p, a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
-
-  let cur = -1;
+  let cur = -1, lastP = -1;
   function render(p) {
     const stage = Math.min(N - 1, Math.floor(p * N + 0.0001));
-    const rent = lerp(p, 0.30, 0.70) * 1850000;
-    const occ = lerp(p, 0.16, 0.66) * 100;
-    if (mRent) mRent.textContent = rent < 1000 ? '—' : '₹' + inr(rent);
-    if (mOcc) mOcc.textContent = Math.round(occ) + '%';
-    if (mYield) mYield.textContent = p > 0.82 ? '8.2%' : '—';
     if (fill) fill.style.width = (stage / (N - 1) * 100) + '%';
+    // the floor evolves continuously — many fine-grained reveals across the scroll
+    if (p !== lastP) { lastP = p; layers.forEach(ly => ly.classList.toggle('is-on', p >= +ly.dataset.at)); }
     if (stage === cur) return;
     cur = stage;
     nums.forEach((li, i) => { li.classList.toggle('is-active', i === stage); li.classList.toggle('is-done', i < stage); });
     panels.forEach((pl, i) => pl.classList.toggle('is-active', i === stage));
-    layers.forEach(ly => ly.classList.toggle('is-on', stage >= +ly.dataset.stage));
+    checks.forEach(li => li.classList.toggle('done', stage >= +li.dataset.at));
     if (stageName) stageName.textContent = names[stage];
   }
 
