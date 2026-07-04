@@ -148,11 +148,15 @@ if ('IntersectionObserver' in window) {
   const fill = rail.querySelector('.chapters-fill');
   const links = Array.from(rail.querySelectorAll('.chapter'));
   const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+  const hero = document.querySelector('.hero');
   function update() {
     const doc = document.documentElement;
     const max = doc.scrollHeight - window.innerHeight;
     const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
     if (fill) fill.style.height = (p * 100) + '%';
+    // reveal the rail only after the first screen (hero) is scrolled past
+    const showAt = hero ? Math.max(hero.offsetHeight - 160, 240) : window.innerHeight * 0.8;
+    rail.classList.toggle('is-visible', window.scrollY > showAt);
     const mid = window.scrollY + window.innerHeight * 0.4;
     let idx = 0;
     sections.forEach((s, i) => { if (s && s.offsetTop <= mid) idx = i; });
