@@ -183,7 +183,6 @@ if ('IntersectionObserver' in window) {
   const fill = scroll.querySelector('.j-fill');
   const panels = Array.from(scroll.querySelectorAll('.j-panel'));
   const layers = Array.from(scroll.querySelectorAll('.fl-layer'));
-  const checks = Array.from(scroll.querySelectorAll('.j-checks li'));
   const stageName = scroll.querySelector('.floor-stage-name');
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
@@ -202,7 +201,6 @@ if ('IntersectionObserver' in window) {
     cur = stage;
     nums.forEach((li, i) => { li.classList.toggle('is-active', i === stage); li.classList.toggle('is-done', i < stage); });
     panels.forEach((pl, i) => pl.classList.toggle('is-active', i === stage));
-    checks.forEach(li => li.classList.toggle('done', stage >= +li.dataset.at));
     if (stageName) stageName.textContent = names[stage];
   }
 
