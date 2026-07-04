@@ -8,9 +8,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
+<nav class="chapters" aria-label="Section progress">
+  <a class="chapter" href="#services"><span class="ch-num">01</span><span class="ch-label">Services</span></a>
+  <a class="chapter" href="#spaces"><span class="ch-num">02</span><span class="ch-label">Spaces</span></a>
+  <a class="chapter" href="#journey"><span class="ch-num">03</span><span class="ch-label">Process</span></a>
+  <a class="chapter" href="#who"><span class="ch-num">04</span><span class="ch-label">Who</span></a>
+  <a class="chapter" href="#locations"><span class="ch-num">05</span><span class="ch-label">Coverage</span></a>
+  <a class="chapter" href="#contact"><span class="ch-num">06</span><span class="ch-label">Contact</span></a>
+  <span class="chapters-line"><span class="chapters-fill"></span></span>
+</nav>
 
 <!-- NAV -->
 <header class="nav" id="nav">
@@ -38,6 +48,7 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="aura aura--rose" style="width:40vw;height:40vw;top:2%;right:-6%" aria-hidden="true"></div>
   <div class="hero-grid">
     <div class="hero-lead-col">
       <div class="topline">
@@ -67,6 +78,7 @@
 
 <!-- CREDENTIALS BAND -->
 <section class="band">
+  <div class="aura aura--amber" style="width:34vw;height:34vw;top:-45%;left:-3%" aria-hidden="true"></div>
   <div class="band-inner">
     <div class="band-item">
       <strong data-count="2.5" data-decimals="1" data-suffix="M+">2.5M+</strong>
@@ -101,13 +113,14 @@
           <line x1="115" y1="150" x2="115" y2="632"/><line x1="157" y1="150" x2="157" y2="632"/>
           <line x1="199" y1="150" x2="199" y2="632"/>
           <line x1="157" y1="70" x2="157" y2="150"/>
-          <rect x="115" y="278" width="42" height="44" fill="rgba(15,28,46,0.85)" stroke="none"/>
-          <rect x="157" y="454" width="42" height="44" fill="rgba(15,28,46,0.85)" stroke="none"/>
+          <rect x="115" y="278" width="42" height="44" fill="rgba(29,27,23,0.85)" stroke="none"/>
+          <rect x="157" y="454" width="42" height="44" fill="rgba(29,27,23,0.85)" stroke="none"/>
         </svg>
       </div>
+    <div class="aura aura--sage" style="width:42vw;height:42vw;bottom:-12%;left:-8%" aria-hidden="true"></div>
   <div class="container">
     <div class="section-head">
-      <p class="kicker reveal-up">What we do</p>
+      <p class="kicker reveal-up"><span class="k-idx">01</span>What we do</p>
       <h2 class="reveal-up">Complete solutions for<br>commercial spaces.</h2>
     </div>
     <ol class="ledger">
@@ -165,10 +178,11 @@
 
 <!-- FEATURED SPACES -->
 <section class="spaces section-pad" id="spaces">
+  <div class="aura aura--rose" style="width:44vw;height:44vw;top:-6%;right:-10%" aria-hidden="true"></div>
   <div class="container">
     <div class="spaces-head">
       <div class="section-head">
-        <p class="kicker reveal-up">Featured spaces</p>
+        <p class="kicker reveal-up"><span class="k-idx">02</span>Featured spaces</p>
         <h2 class="reveal-up">A live view of the<br>spaces we're moving.</h2>
       </div>
       <a href="#contact" class="spaces-all reveal-up">View all spaces →</a>
@@ -262,9 +276,10 @@
         <line x1="20" y1="8" x2="400" y2="8" stroke-dasharray="2 7"/>
       </svg>
     </div>
+    <div class="aura aura--amber" style="width:40vw;height:40vw;bottom:-14%;right:-6%" aria-hidden="true"></div>
   <div class="container">
     <div class="section-head">
-      <p class="kicker reveal-up">The process</p>
+      <p class="kicker reveal-up"><span class="k-idx">03</span>The process</p>
       <h2 class="reveal-up">From raw space to<br>income-generating asset.</h2>
       <p class="section-sub reveal-up">We take a landlord's bare commercial unit and walk it through every stage — until it's leased, furnished and earning.</p>
     </div>
@@ -323,9 +338,10 @@
           <circle cx="220" cy="220" r="7" fill="rgba(15,28,46,0.14)" stroke="none"/>
         </svg>
       </div>
+      <div class="aura aura--violet" style="width:38vw;height:38vw;top:0;left:-8%" aria-hidden="true"></div>
       <div class="container">
         <div class="section-head reveal-up">
-          <p class="kicker">Who we help</p>
+          <p class="kicker"><span class="k-idx">04</span>Who we help</p>
           <h2>Built for every side of the table.</h2>
           <p class="section-sub">Tell us where you sit at the table — we tailor everything to it.</p>
         </div>
@@ -439,9 +455,10 @@
 
 <!-- LOCATIONS -->
 <section class="locations section-pad" id="locations">
+    <div class="aura aura--sage" style="width:40vw;height:40vw;top:-8%;right:-8%" aria-hidden="true"></div>
   <div class="container locations-inner">
     <div class="locations-left reveal-up">
-      <p class="kicker">Where we operate</p>
+      <p class="kicker"><span class="k-idx">05</span>Where we operate</p>
       <h2>Delhi NCR's top<br>commercial corridors.</h2>
       <p>Deep expertise across every major micro-market — we know the buildings, the landlords, the vacancy and the going rate.</p>
       <a href="#contact" class="btn-solid" style="margin-top:2rem;">Share your requirement</a>
@@ -470,9 +487,9 @@
           <text x="92" y="133" text-anchor="middle" font-family="'Libre Caslon Text', Georgia, serif" font-size="13" fill="#1B1C19" letter-spacing="-0.01em">Gurgaon</text>
           <text x="238" y="101" text-anchor="middle" font-family="'Libre Caslon Text', Georgia, serif" font-size="13" fill="#1B1C19" letter-spacing="-0.01em">Noida</text>
           <!-- Hub dots — r=6, deep forest green -->
-          <circle cx="155" cy="62" r="6" fill="#0F1C2E"/>
-          <circle cx="92" cy="150" r="6" fill="#0F1C2E"/>
-          <circle cx="238" cy="118" r="6" fill="#0F1C2E"/>
+          <circle cx="155" cy="62" r="6" fill="#1D1B17"/>
+          <circle cx="92" cy="150" r="6" fill="#1D1B17"/>
+          <circle cx="238" cy="118" r="6" fill="#1D1B17"/>
         </svg>
       </div>
       <div class="loc-groups">
@@ -518,9 +535,11 @@
         <line x1="1060" y1="92" x2="1060" y2="220" stroke-dasharray="2 11"/>
       </svg>
     </div>
+    <div class="aura aura--rose" style="width:46vw;height:46vw;top:-22%;left:-6%" aria-hidden="true"></div>
+    <div class="aura aura--amber" style="width:34vw;height:34vw;bottom:-30%;right:-4%" aria-hidden="true"></div>
   <div class="cta-inner">
-    <p class="kicker reveal-up">Get in touch</p>
-    <h2 class="reveal-up">Let's build value<br>from your space.</h2>
+    <p class="kicker reveal-up"><span class="k-idx">06</span>Get in touch</p>
+    <h2 class="reveal-up">Let's build <em>value</em><br>from your space.</h2>
     <p class="cta-sub reveal-up">Landlord, business or investor — tell us what you need and we'll take it from there.</p>
     <div class="cta-actions reveal-up">
       <a href="tel:+911140843600" class="cta-tile">
@@ -559,6 +578,6 @@
   <p class="footer-copy">© 2026 BBRE Commercial. All rights reserved.</p>
 </footer>
 
-<script src="script.js?v=15"></script>
+<script src="script.js?v=16"></script>
 </body>
 </html>

@@ -140,3 +140,26 @@ if ('IntersectionObserver' in window) {
   setActive(0);
   update();
 })();
+
+// ---- Chapter progress rail ----
+(function () {
+  const rail = document.querySelector('.chapters');
+  if (!rail) return;
+  const fill = rail.querySelector('.chapters-fill');
+  const links = Array.from(rail.querySelectorAll('.chapter'));
+  const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+  function update() {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (fill) fill.style.height = (p * 100) + '%';
+    const mid = window.scrollY + window.innerHeight * 0.4;
+    let idx = 0;
+    sections.forEach((s, i) => { if (s && s.offsetTop <= mid) idx = i; });
+    links.forEach((a, i) => a.classList.toggle('is-active', i === idx));
+  }
+  let t = false;
+  window.addEventListener('scroll', () => { if (!t) { requestAnimationFrame(() => { update(); t = false; }); t = true; } }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
