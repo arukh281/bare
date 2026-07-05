@@ -183,6 +183,7 @@ if ('IntersectionObserver' in window) {
   const fill = scroll.querySelector('.j-fill');
   const panels = Array.from(scroll.querySelectorAll('.j-panel'));
   const layers = Array.from(scroll.querySelectorAll('.fl-layer, .env-layer'));
+  const sun = scroll.querySelector('.env-sun');
   const stageName = scroll.querySelector('.floor-stage-name');
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
@@ -195,8 +196,17 @@ if ('IntersectionObserver' in window) {
   function render(p) {
     const stage = Math.min(N - 1, Math.floor(p * N + 0.0001));
     if (fill) fill.style.width = (stage / (N - 1) * 100) + '%';
-    // the floor evolves continuously — many fine-grained reveals across the scroll
-    if (p !== lastP) { lastP = p; layers.forEach(ly => ly.classList.toggle('is-on', p >= +ly.dataset.at)); }
+    // the floor + environment evolve continuously across the scroll
+    if (p !== lastP) {
+      lastP = p;
+      layers.forEach(ly => ly.classList.toggle('is-on', p >= +ly.dataset.at));
+      if (sun) {                                   // sun arcs up from the horizon (east → peak)
+        const rise = Math.max(0, Math.min(1, (p - 0.06) / 0.86));
+        const a = rise * Math.PI / 2;
+        sun.style.opacity = rise <= 0 ? '0' : String(0.4 + rise * 0.6);
+        sun.style.transform = 'translate(' + (Math.cos(a) * 150).toFixed(1) + 'px, ' + ((1 - Math.sin(a)) * 300).toFixed(1) + 'px)';
+      }
+    }
     if (stage === cur) return;
     cur = stage;
     nums.forEach((li, i) => { li.classList.toggle('is-active', i === stage); li.classList.toggle('is-done', i < stage); });

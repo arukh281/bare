@@ -431,7 +431,6 @@ ol, ul { list-style: none; }
 .floor-svg {
   display: block; width: 100%; height: auto; aspect-ratio: 480 / 340;  /* size locked — never changes per stage */
   background: var(--paper); border: 1px solid var(--line);
-  box-shadow: 0 30px 60px -40px rgba(41,33,18,0.4);
 }
 .fl-layer { opacity: 0; transition: opacity .55s var(--ease); }
 .fl-layer.is-on { opacity: 1; }
@@ -440,6 +439,13 @@ ol, ul { list-style: none; }
 .env-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .env-layer { opacity: 0; transition: opacity .7s var(--ease); }
 .env-layer.is-on { opacity: 1; }
+/* sun arcs up from the horizon as the asset comes to life (JS drives transform) */
+.env-sun {
+  position: absolute; right: 16%; top: 12%;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,178,94,0.6) 34%, rgba(217,178,94,0.2) 52%, transparent 70%);
+  opacity: 0; will-change: transform, opacity;
+}
 @media (max-width: 900px) { .journey-bg { display: none; } }
 .floor-cap {
   display: flex; justify-content: space-between; align-items: baseline;
