@@ -86,20 +86,20 @@ if ('IntersectionObserver' in window) {
   revealAll();
 }
 
-// ---- Mobile only: reveal WHO personas as they scroll into view ----
+// ---- Mobile only: fade WHO personas + journey steps up as they scroll into view ----
 (function () {
   const mobile = window.matchMedia('(max-width: 900px)').matches &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!mobile) return;
-  const slides = Array.from(document.querySelectorAll('.who-slide'));
-  if (!slides.length) return;
-  slides.forEach(s => s.classList.add('who-reveal'));
-  const showAll = () => slides.forEach(s => s.classList.add('in-view'));
+  const els = Array.from(document.querySelectorAll('.who-slide, .j-panel'));
+  if (!els.length) return;
+  els.forEach(s => s.classList.add('m-reveal'));
+  const showAll = () => els.forEach(s => s.classList.add('in-view'));
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
-    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-    slides.forEach(s => io.observe(s));
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    els.forEach(s => io.observe(s));
     window.addEventListener('load', () => setTimeout(showAll, 2500));  // safety net
   } else {
     showAll();
@@ -208,7 +208,7 @@ if ('IntersectionObserver' in window) {
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
 
-  const readout = scroll.querySelector('.journey-readout');
+  const visual = scroll.querySelector('.journey-visual');
   const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => window.matchMedia('(min-width: 901px)').matches;
 
@@ -243,11 +243,12 @@ if ('IntersectionObserver' in window) {
       render(clamp01(total > 0 ? (-rect.top) / total : 0));
       return;
     }
-    // mobile: diagram is sticky; steps scroll past a read line beneath it
-    if (!readout) { render(1); return; }
-    const r = readout.getBoundingClientRect();
-    const readLine = window.innerHeight * 0.62;
-    render(clamp01(r.height > 0 ? (readLine - r.top) / r.height : 0));
+    // mobile: no pinning — the floor builds as the diagram scrolls up through view
+    if (!visual) { render(1); return; }
+    const b = visual.getBoundingClientRect();
+    const start = window.innerHeight * 0.82;   // diagram low in viewport  -> bare shell
+    const end = window.innerHeight * 0.18;     // diagram high in viewport -> fully built
+    render(clamp01((start - b.top) / (start - end)));
   }
   let ticking = false;
   window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });

@@ -496,24 +496,20 @@ ol, ul { list-style: none; }
   }
 }
 @media (max-width: 900px) {
-  /* Mobile scrollytelling: the floor diagram pins while the steps scroll past
-     beneath it, and JS builds the floor + lights the active step as you scroll. */
-  .journey-sticky { overflow: visible; }          /* release the diagram to stick */
-  .journey-sticky > .aura { display: none; }       /* was contained by overflow:hidden */
-  .journey-stage { grid-template-columns: 1fr; gap: 0; align-items: start; }
-  .journey-visual {
-    position: sticky; top: 58px; z-index: 3;
-    background: var(--paper-2); margin: 0; padding: 6px 0 14px;
-  }
-  .floor-cap { text-align: center; }
-  .j-steps { display: none; }             /* stepper is redundant when steps list out */
-  .j-panels { display: block; min-height: 0; counter-reset: jp; position: relative; z-index: 1; }
+  /* Mobile journey: robust in-flow layout (NO pinning). The floor diagram sits
+     in normal flow and builds itself as it scrolls up through the viewport;
+     the six steps are a tight numbered list that fades up on scroll. */
+  .journey-stage { grid-template-columns: 1fr; gap: clamp(1rem, 3vw, 1.6rem); align-items: start; }
+  .journey-visual { position: static; margin: 0; }
+  .fl-layer { opacity: 0; }                 /* revealed as the diagram scrolls in */
+  .fl-layer.is-on { opacity: 1; }
+  .j-steps { display: none; }               /* stepper is redundant when steps list out */
+  .j-panels { display: block; min-height: 0; counter-reset: jp; }
   .j-panel {
-    grid-area: auto; transform: none; pointer-events: auto; margin: 0;
-    min-height: 44vh; display: flex; flex-direction: column; justify-content: center;
-    opacity: 0.3; transition: opacity .5s var(--ease);
+    grid-area: auto; opacity: 1; transform: none; pointer-events: auto;
+    min-height: 0; margin-bottom: clamp(1.9rem, 6vw, 2.8rem);
   }
-  .j-panel.is-active { opacity: 1; }
+  .j-panel:last-child { margin-bottom: 0; }
   .j-panel p { max-width: none; }
   .j-panel h4::before {
     counter-increment: jp;
@@ -521,6 +517,9 @@ ol, ul { list-style: none; }
     display: block; font-family: var(--mono); font-size: 0.72rem;
     letter-spacing: 0.08em; color: var(--gold-ink); margin-bottom: 0.4rem;
   }
+  /* steps fade up as they enter view (class added by JS on mobile only) */
+  .j-panel.m-reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .j-panel.m-reveal.in-view { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .journey-scroll { height: auto; }
@@ -1061,8 +1060,8 @@ html:not(.js) .persona-panel {
   .who-panels { display: block; }
   .who-slide { grid-area: auto; opacity: 1; transform: none; pointer-events: auto; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
   .who-slide:last-child { margin-bottom: 0; }
-  .who-slide.who-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
-  .who-slide.who-reveal.in-view { opacity: 1; transform: none; }
+  .who-slide.m-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .who-slide.m-reveal.in-view { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .who-scroll { height: auto; }
