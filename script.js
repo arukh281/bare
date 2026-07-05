@@ -204,7 +204,7 @@ if ('IntersectionObserver' in window) {
         const rise = Math.max(0, Math.min(1, (p - 0.06) / 0.86));
         const a = rise * Math.PI / 2;
         sun.style.opacity = rise <= 0 ? '0' : String(0.4 + rise * 0.6);
-        sun.style.transform = 'translate(' + (Math.cos(a) * 150).toFixed(1) + 'px, ' + ((1 - Math.sin(a)) * 300).toFixed(1) + 'px)';
+        sun.style.transform = 'translate(' + (-Math.cos(a) * 150).toFixed(1) + 'px, ' + ((1 - Math.sin(a)) * 300).toFixed(1) + 'px)';
       }
     }
     if (stage === cur) return;
