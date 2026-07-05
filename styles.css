@@ -734,7 +734,7 @@ html:not(.js) .persona-panel {
    LOCATIONS
    ============================================================ */
 .locations { background: var(--paper); }
-.locations-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.locations-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: start; }
 .locations-left h2 {
   font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3.2vw, 2.7rem);
   line-height: 1.08; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 1.1rem;
@@ -944,6 +944,8 @@ html:not(.js) .persona-panel {
 .deco-contour { top: 6%; right: -50px;
                 width: min(32vw, 440px); height: 440px; opacity: 0.17; }
 .deco-skyline { left: 0; right: 0; bottom: 0; width: 100%; height: 118px; opacity: 0.15; }
+.deco-district { left: clamp(-40px, -1.5vw, 0px); bottom: 0;
+                 width: min(48vw, 600px); height: min(56vh, 460px); opacity: 0.15; }
 
 /* warm depth bloom behind the hero headline */
 .hero::before {
@@ -956,7 +958,7 @@ html:not(.js) .persona-panel {
 .proc-section { padding-top: clamp(30px, 4vw, 52px); }
 
 @media (max-width: 900px) {
-  .deco-facade, .deco-plan, .deco-contour { display: none; }  /* keep small screens clean */
+  .deco-facade, .deco-plan, .deco-contour, .deco-district { display: none; }  /* keep small screens clean */
   .deco-skyline { height: 92px; opacity: 0.11; }
   .hero::before { width: 80vw; height: 80vw; }
 }
