@@ -182,7 +182,7 @@ if ('IntersectionObserver' in window) {
   const nums = Array.from(scroll.querySelectorAll('.j-nums li'));
   const fill = scroll.querySelector('.j-fill');
   const panels = Array.from(scroll.querySelectorAll('.j-panel'));
-  const layers = Array.from(scroll.querySelectorAll('.fl-layer'));
+  const layers = Array.from(scroll.querySelectorAll('.fl-layer, .env-layer'));
   const stageName = scroll.querySelector('.floor-stage-name');
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
