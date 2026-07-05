@@ -86,6 +86,26 @@ if ('IntersectionObserver' in window) {
   revealAll();
 }
 
+// ---- Mobile only: reveal WHO personas as they scroll into view ----
+(function () {
+  const mobile = window.matchMedia('(max-width: 900px)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!mobile) return;
+  const slides = Array.from(document.querySelectorAll('.who-slide'));
+  if (!slides.length) return;
+  slides.forEach(s => s.classList.add('who-reveal'));
+  const showAll = () => slides.forEach(s => s.classList.add('in-view'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    slides.forEach(s => io.observe(s));
+    window.addEventListener('load', () => setTimeout(showAll, 2500));  // safety net
+  } else {
+    showAll();
+  }
+})();
+
 // ---- Who We Help: scroll-pinned persona dial ----
 (function () {
   const scroll = document.querySelector('.who-scroll');
@@ -188,10 +208,10 @@ if ('IntersectionObserver' in window) {
   const N = 6;
   const names = ['Bare shell', 'Tenant secured', 'Fitted out', 'Lease signed', 'Occupied & earning', 'Pre-leased asset'];
 
-  const pinned = () => window.matchMedia('(min-width: 901px)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const readout = scroll.querySelector('.journey-readout');
+  const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const desktop = () => window.matchMedia('(min-width: 901px)').matches;
 
-  // Indian digit grouping: 1850000 -> 18,50,000
   let cur = -1, lastP = -1;
   function render(p) {
     const stage = Math.min(N - 1, Math.floor(p * N + 0.0001));
@@ -214,16 +234,23 @@ if ('IntersectionObserver' in window) {
     if (stageName) stageName.textContent = names[stage];
   }
 
+  const clamp01 = v => Math.max(0, Math.min(1, v));
   function update() {
-    if (!pinned()) { render(1); return; }   // static final state on mobile / reduced-motion
-    const rect = scroll.getBoundingClientRect();
-    const total = scroll.offsetHeight - window.innerHeight;
-    let p = total > 0 ? (-rect.top) / total : 0;
-    p = Math.max(0, Math.min(1, p));
-    render(p);
+    if (reduced()) { render(1); return; }          // static, fully built
+    if (desktop()) {                                // pinned full-section scroll
+      const rect = scroll.getBoundingClientRect();
+      const total = scroll.offsetHeight - window.innerHeight;
+      render(clamp01(total > 0 ? (-rect.top) / total : 0));
+      return;
+    }
+    // mobile: diagram is sticky; steps scroll past a read line beneath it
+    if (!readout) { render(1); return; }
+    const r = readout.getBoundingClientRect();
+    const readLine = window.innerHeight * 0.62;
+    render(clamp01(r.height > 0 ? (readLine - r.top) / r.height : 0));
   }
   let ticking = false;
   window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('resize', () => { cur = -1; lastP = -1; update(); }, { passive: true });
   update();
 })();
