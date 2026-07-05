@@ -328,7 +328,8 @@ ol, ul { list-style: none; }
 /* ============================================================
    FEATURED SPACES — editorial contact-sheet plates
    ============================================================ */
-.spaces { background: var(--paper-2); }
+.spaces { background: var(--deep); }
+.spaces .section-head h2 { color: var(--on-navy); }
 
 .spaces-head {
   display: flex; align-items: flex-end; justify-content: space-between;
@@ -343,13 +344,13 @@ ol, ul { list-style: none; }
 .spaces-head h2 { white-space: nowrap; }
 
 .spaces-all {
-  font-size: 0.82rem; font-weight: 600; color: var(--deep);
+  font-size: 0.82rem; font-weight: 600; color: var(--on-navy);
   display: inline-flex; align-items: center; gap: 0.4rem;
-  border-bottom: 1px solid var(--line-2); padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--on-navy-line); padding-bottom: 0.2rem;
   white-space: nowrap; align-self: flex-end;
   transition: border-color .25s var(--ease), color .25s;
 }
-.spaces-all:hover { border-color: var(--deep); }
+.spaces-all:hover { border-color: var(--gold-2); color: var(--gold-2); }
 
 .spaces-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
