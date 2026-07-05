@@ -190,7 +190,7 @@ ol, ul { list-style: none; }
   transition: background .2s, color .2s !important;
 }
 .nav-cta:hover { background: var(--deep); color: var(--on-navy) !important; }
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; width: 44px; height: 44px; padding: 0; margin: -8px -10px -8px 0; }
 .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: .3s; }
 .mobile-menu { display: none; flex-direction: column; background: var(--paper); border-top: 1px solid var(--line); padding: 0.5rem 2.5rem 1.5rem; }
 .mobile-menu a { font-size: 1rem; font-weight: 500; color: var(--ink-soft); padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
@@ -498,10 +498,17 @@ ol, ul { list-style: none; }
 @media (max-width: 900px) {
   .journey-stage { grid-template-columns: 1fr; gap: 2rem; }
   .fl-layer { opacity: 1; }               /* finished floor, shown statically */
-  .j-panels { display: block; min-height: 0; }
-  .j-panel { grid-area: auto; opacity: 1; transform: none; pointer-events: auto; margin-bottom: 1.3rem; }
+  .j-steps { display: none; }             /* stepper is redundant when all steps list out */
+  .j-panels { display: block; min-height: 0; counter-reset: jp; }
+  .j-panel { grid-area: auto; opacity: 1; transform: none; pointer-events: auto; margin-bottom: 1.5rem; }
   .j-panel:last-child { margin-bottom: 0; }
   .j-panel p { max-width: none; }
+  .j-panel h4::before {
+    counter-increment: jp;
+    content: counter(jp, decimal-leading-zero);
+    display: block; font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.08em; color: var(--gold-ink); margin-bottom: 0.4rem;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .journey-scroll { height: auto; }
