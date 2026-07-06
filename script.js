@@ -132,14 +132,27 @@ if ('IntersectionObserver' in window) {
     slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
   }
 
-  function update() {
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  // Ease rendered progress toward the scroll target so a fast flick still steps
+  // through every persona instead of jumping straight to the last one.
+  let targetP = 0, renderP = 0, rafId = null;
+  function draw(p) {
+    setActive(Math.min(N - 1, Math.floor(p * N + 0.0001)));
+    if (progressArc) progressArc.style.strokeDashoffset = String(1 - p);
+  }
+  function frame() {
+    const d = targetP - renderP;
+    if (Math.abs(d) < 0.0006) { renderP = targetP; draw(renderP); rafId = null; return; }
+    renderP += d * 0.15;
+    draw(renderP);
+    rafId = requestAnimationFrame(frame);
+  }
+  function kick() {
     if (!pinned()) { setActive(current < 0 ? 0 : current); return; }
     const rect = scroll.getBoundingClientRect();
     const total = scroll.offsetHeight - window.innerHeight;
-    let p = total > 0 ? (-rect.top) / total : 0;
-    p = Math.max(0, Math.min(1, p));
-    setActive(Math.min(N - 1, Math.floor(p * N + 0.0001)));
-    if (progressArc) progressArc.style.strokeDashoffset = String(1 - p);
+    targetP = clamp01(total > 0 ? (-rect.top) / total : 0);
+    if (rafId === null) rafId = requestAnimationFrame(frame);
   }
 
   points.forEach((pt, i) => {
@@ -152,13 +165,11 @@ if ('IntersectionObserver' in window) {
     });
   });
 
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
-  }, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('resize', () => { renderP = targetP; kick(); }, { passive: true });
   setActive(0);
-  update();
+  kick();
+  renderP = targetP;   // snap first paint (no ease-in on load)
 })();
 
 // ---- Chapter progress rail ----
@@ -235,21 +246,26 @@ if ('IntersectionObserver' in window) {
   }
 
   const clamp01 = v => Math.max(0, Math.min(1, v));
-  function update() {
-    if (reduced()) { render(1); return; }          // static, fully built
-    if (desktop()) {                                // pinned full-section scroll
-      const rect = scroll.getBoundingClientRect();
-      const total = scroll.offsetHeight - window.innerHeight;
-      render(clamp01(total > 0 ? (-rect.top) / total : 0));
-      return;
-    }
-    // mobile: diagram is frozen fully-built (see CSS) — nothing scroll-linked here
-    render(1);
+  // Ease the rendered progress toward the scroll target so the floor always plays
+  // THROUGH its stages — even on a fast flick that skips the raw scroll range.
+  let targetP = 0, renderP = 0, rafId = null;
+  function measure() {
+    if (reduced() || !desktop()) { targetP = 1; return; }   // mobile/reduced: frozen final state
+    const rect = scroll.getBoundingClientRect();
+    const total = scroll.offsetHeight - window.innerHeight;
+    targetP = clamp01(total > 0 ? (-rect.top) / total : 0);
   }
-  let ticking = false;
-  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
-  window.addEventListener('resize', () => { cur = -1; lastP = -1; update(); }, { passive: true });
-  update();
+  function frame() {
+    const d = targetP - renderP;
+    if (Math.abs(d) < 0.0006) { renderP = targetP; render(renderP); rafId = null; return; }
+    renderP += d * 0.15;
+    render(renderP);
+    rafId = requestAnimationFrame(frame);
+  }
+  function kick() { measure(); if (rafId === null) rafId = requestAnimationFrame(frame); }
+  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('resize', () => { cur = -1; lastP = -1; measure(); renderP = targetP; render(renderP); }, { passive: true });
+  measure(); renderP = targetP; render(renderP);   // first paint lands directly, no ease-in
 })();
 
 // ---- Hero masthead parallax: the backdrop drifts slowly as you scroll (subtle depth) ----
