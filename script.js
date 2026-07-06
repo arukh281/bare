@@ -251,3 +251,21 @@ if ('IntersectionObserver' in window) {
   window.addEventListener('resize', () => { cur = -1; lastP = -1; update(); }, { passive: true });
   update();
 })();
+
+// ---- Hero masthead parallax: the backdrop drifts slowly as you scroll (subtle depth) ----
+(function () {
+  const bg   = document.querySelector('.hero--masthead .mh-bg');
+  const hero = document.querySelector('.hero--masthead');
+  if (!hero || !bg) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let ticking = false;
+  function update() {
+    if (reduced.matches) { bg.style.transform = ''; return; }
+    const h = hero.offsetHeight || 1;
+    const p = Math.max(0, Math.min(1, window.scrollY / h));
+    bg.style.transform = 'translate3d(0,' + (p * 48).toFixed(1) + 'px,0)';
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
