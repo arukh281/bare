@@ -1147,6 +1147,8 @@ html:not(.js) .persona-panel {
   color: var(--ink-soft); white-space: nowrap; opacity: 0; transform: translateX(6px);
   transition: opacity .3s var(--ease), transform .3s var(--ease);
 }
+/* rail is just the progress line + dots — numbers and labels removed */
+.chapter .ch-num, .chapter .ch-label { display: none; }
 .chapter::after {
   content: ''; width: 9px; height: 9px; border-radius: 50%;
   border: 1.5px solid var(--line-2); background: var(--paper); flex-shrink: 0; transition: all .3s var(--ease);
