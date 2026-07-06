@@ -243,12 +243,8 @@ if ('IntersectionObserver' in window) {
       render(clamp01(total > 0 ? (-rect.top) / total : 0));
       return;
     }
-    // mobile: no pinning — the floor builds as the diagram scrolls up through view
-    if (!visual) { render(1); return; }
-    const b = visual.getBoundingClientRect();
-    const start = window.innerHeight * 0.82;   // diagram low in viewport  -> bare shell
-    const end = window.innerHeight * 0.18;     // diagram high in viewport -> fully built
-    render(clamp01((start - b.top) / (start - end)));
+    // mobile: diagram is frozen fully-built (see CSS) — nothing scroll-linked here
+    render(1);
   }
   let ticking = false;
   window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
