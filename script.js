@@ -1,11 +1,18 @@
 // ---- Count-up animation for credentials band ----
 const countEls = Array.from(document.querySelectorAll('[data-count]'));
 
+function groupNum(str) {
+  // add thousands separators to the integer part (e.g. 3000 -> 3,000)
+  const parts = String(str).split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
 function writeCountFinal(el) {
   const target  = parseFloat(el.dataset.count);
   const decimals = parseInt(el.dataset.decimals || '0', 10);
   const suffix   = el.dataset.suffix || '';
-  el.textContent = target.toFixed(decimals) + suffix;
+  el.textContent = groupNum(target.toFixed(decimals)) + suffix;
 }
 
 // Safety-net / no-JS fallback: write final values immediately.
@@ -22,7 +29,7 @@ function animateCount(el) {
     const elapsed  = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
     const eased    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-    el.textContent = (target * eased).toFixed(decimals) + suffix;
+    el.textContent = groupNum((target * eased).toFixed(decimals)) + suffix;
     if (progress < 1) requestAnimationFrame(tick);
   }
 
@@ -47,8 +54,17 @@ if (!prefersReduced && 'IntersectionObserver' in window && countEls.length) {
 
 // ---- Nav scroll state ----
 const nav = document.getElementById('nav');
-const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+const heroMast = document.querySelector('.hero--masthead');
+const onScroll = () => {
+  const y = window.scrollY;
+  nav.classList.toggle('scrolled', y > 24);
+  // Transparent (light) nav while the cinematic hero still fills the screen;
+  // flips to solid parchment once its bottom passes under the bar.
+  const overHero = heroMast ? y < (heroMast.offsetHeight - nav.offsetHeight - 8) : false;
+  nav.classList.toggle('over-hero', overHero);
+};
 window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll, { passive: true });
 onScroll();
 
 // ---- Mobile menu ----
@@ -85,6 +101,20 @@ if ('IntersectionObserver' in window) {
 } else {
   revealAll();
 }
+
+// ---- About: draft the table plan on first entry (enhancement only — SVG is fully drawn by default) ----
+(function () {
+  const plan = document.querySelector('.about-plan-wrap');
+  if (!plan) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { plan.classList.add('is-drawing'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.35 });
+  io.observe(plan);
+})();
 
 // ---- Mobile only: fade WHO personas + journey steps up as they scroll into view ----
 (function () {
@@ -179,7 +209,7 @@ if ('IntersectionObserver' in window) {
   const fill = rail.querySelector('.chapters-fill');
   const links = Array.from(rail.querySelectorAll('.chapter'));
   const sections = links.map(a => document.querySelector(a.getAttribute('href')));
-  const hero = document.querySelector('.hero');
+  const hero = document.querySelector('.hero--masthead');
   // dark-background sections the fixed rail passes over — switch to light ink there
   const darkSections = ['.band', '.cta'].map(s => document.querySelector(s)).filter(Boolean);
   function update() {
@@ -268,20 +298,5 @@ if ('IntersectionObserver' in window) {
   measure(); renderP = targetP; render(renderP);   // first paint lands directly, no ease-in
 })();
 
-// ---- Hero masthead parallax: the backdrop drifts slowly as you scroll (subtle depth) ----
-(function () {
-  const bg   = document.querySelector('.hero--masthead .mh-bg');
-  const hero = document.querySelector('.hero--masthead');
-  if (!hero || !bg) return;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let ticking = false;
-  function update() {
-    if (reduced.matches) { bg.style.transform = ''; return; }
-    const h = hero.offsetHeight || 1;
-    const p = Math.max(0, Math.min(1, window.scrollY / h));
-    bg.style.transform = 'translate3d(0,' + (p * 48).toFixed(1) + 'px,0)';
-  }
-  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; } }, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
-})();
+// (Removed dead hero-parallax IIFE — it queried .mh-bg, which doesn't exist; the hero
+//  uses .mh-photo with a CSS Ken Burns animation, so a JS transform would have fought it.)

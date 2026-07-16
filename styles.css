@@ -1,6 +1,7 @@
 /* ============================================================
-   BBRE Commercial — editorial / architectural identity
-   Paper ivory · deep forest green · Fraunces display serif
+   BBRE Commercial — heritage-classic editorial / drafting identity
+   Parchment · warm-black · burgundy · antique gold
+   Libre Caslon Text (display) · Source Serif 4 (body) · Work Sans (labels)
    ============================================================ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -8,8 +9,8 @@
 :root {
   /* Heritage Classic (warm evolution) — parchment · warm-black · burgundy · antique gold */
   --paper:   #FBF9F4;   /* parchment surface */
-  --paper-2: #F0EEE9;   /* alt section */
-  --card:    #F5F3EE;   /* raised surface */
+  --paper-2: #EDE8DE;   /* alt section — deepened so tonal bands read (Fable) */
+  --card:    #F1EDE3;   /* raised surface — deepened one step (Fable) */
   --paper-3: #EAE8E3;   /* tonal hover / deeper container */
   --ink:     #1B1C19;   /* on-surface */
   --ink-soft:#44474C;   /* body / secondary text */
@@ -28,10 +29,10 @@
   --gold-2: #D9B25E;    /* brighter gold — glint, diamonds, active */
   --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
   /* muted aura hues — soft washes on light sections (dark sections override stronger) */
-  --aura-amber:  rgba(199,154,62,0.15);
-  --aura-rose:   rgba(161,60,63,0.12);
-  --aura-sage:   rgba(110,122,94,0.12);
-  --aura-violet: rgba(107,94,134,0.11);
+  --aura-amber:  rgba(199,154,62,0.20);
+  --aura-rose:   rgba(161,60,63,0.16);
+  --aura-sage:   rgba(110,122,94,0.16);
+  --aura-violet: rgba(107,94,134,0.15);
 
   --line:   #DAD4C6;    /* warm hairline on parchment */
   --line-2: #C7C1B2;
@@ -78,6 +79,16 @@ body {
 }
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { text-decoration: none; color: inherit; }
+
+/* Accessibility: visible keyboard focus on every interactive control + skip link */
+:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+.skip-link {
+  position: absolute; left: 12px; top: -64px; z-index: 200;
+  background: var(--deep); color: var(--on-navy);
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+  padding: 0.6rem 1rem; transition: top .18s var(--ease);
+}
+.skip-link:focus { top: 12px; }
 ol, ul { list-style: none; }
 
 .container { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; }
@@ -169,11 +180,11 @@ ol, ul { list-style: none; }
 .nav.scrolled { border-bottom-color: var(--line); }
 .nav-inner {
   max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
-  height: 72px; display: flex; align-items: center; justify-content: space-between;
+  height: 58px; display: flex; align-items: center; justify-content: space-between;
 }
 .wordmark {
   font-family: var(--serif);
-  font-size: 1.25rem; font-weight: 400; letter-spacing: 0; color: var(--ink);
+  font-size: 1.12rem; font-weight: 400; letter-spacing: 0; color: var(--ink);
 }
 .wordmark span {
   font-family: var(--sans);
@@ -421,7 +432,7 @@ ol, ul { list-style: none; }
    ============================================================ */
 .proc-section { background: var(--paper-2); position: relative; }
 .journey-scroll { position: relative; }
-.journey-sticky { position: relative; overflow: hidden; }   /* contains the aura; overridden to sticky ≥901px */
+.journey-sticky { position: relative; overflow: hidden; background: linear-gradient(180deg, rgba(237,232,222,0.10) 0%, rgba(237,232,222,0.48) 38%, rgba(237,232,222,0.68) 100%); }   /* translucent scrim softens the survey grid behind the buildings/floor-plate */
 .journey-sticky > .container { position: relative; z-index: 1; width: 100%; }
 .proc-section .section-head { text-align: center; max-width: 760px; margin: 0 auto; }
 
@@ -495,8 +506,8 @@ ol, ul { list-style: none; }
   .journey-scroll { height: 560vh; }
   .journey-sticky {
     position: sticky; top: 0; height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    overflow: hidden; padding: clamp(64px, 8vh, 90px) 0 clamp(20px, 3.5vh, 36px);
+    display: flex; flex-direction: column; justify-content: flex-start;
+    overflow: hidden; padding: clamp(80px, 11vh, 112px) 0 clamp(20px, 3.5vh, 36px);
   }
 }
 @media (max-width: 900px) {
@@ -554,20 +565,7 @@ ol, ul { list-style: none; }
   max-width: 100%;
   flex-wrap: wrap;
 }
-.persona-tab {
-  font-family: var(--sans);
-  font-weight: 400;
-  font-size: clamp(1.15rem, 2.4vw, 1.65rem);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  background: none; border: none; cursor: pointer;
-  padding: 0 0 0.85rem;
-  transition: color .3s var(--ease);
-}
-.persona-tab:hover { color: var(--ink-soft); }
-.persona-tab.is-active { color: var(--burgundy); }
-.persona-tab:focus-visible { outline: 2px solid var(--deep); outline-offset: 4px; border-radius: 0; }
+/* (removed dead .persona-tab rules — the live control is .dial-point; focus handled by the global :focus-visible) */
 .persona-underline {
   position: absolute; left: 0; bottom: -1px; height: 2px; width: 0;
   background: var(--burgundy);
@@ -792,7 +790,7 @@ html:not(.js) .persona-panel {
 /* ============================================================
    CTA (signature dark moment)
    ============================================================ */
-.cta { background: var(--deep); color: var(--on-navy); padding: clamp(52px, 6.5vw, 84px) 2.5rem clamp(104px, 12vw, 140px); }
+.cta { background: var(--deep); color: var(--on-navy); padding: clamp(52px, 6.5vw, 84px) 2.5rem clamp(116px, 12vw, 146px); }
 .cta-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
 .cta .kicker { color: var(--on-navy-soft); justify-content: center; }
 .cta .kicker::before { background: var(--on-navy-soft); }
@@ -836,6 +834,12 @@ html:not(.js) .persona-panel {
 .footer-brand .wordmark { font-size: 1.1rem; display: block; margin-bottom: 0.4rem; color: var(--ink); }
 .footer-brand .wordmark span { color: var(--muted); }
 .footer-brand p { font-size: 0.74rem; color: var(--muted); }
+.footer-brand .footer-descriptor {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.65rem;
+  margin-top: 0.9rem; font-family: var(--sans); font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold-ink);
+}
+.footer-brand .footer-descriptor i { width: 5px; height: 5px; background: var(--gold); opacity: 0.6; transform: rotate(45deg); flex-shrink: 0; }
 .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
 .footer-links a { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); transition: color .2s; }
 .footer-links a:hover { color: var(--deep); }
@@ -902,6 +906,7 @@ html:not(.js) .persona-panel {
   .spaces-grid { grid-template-columns: 1fr; }
   .plate-frame { aspect-ratio: 4 / 3; }
   .spaces-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .spaces-head h2 { white-space: normal; }   /* don't clip the headline on phones */
   /* even dark inset around the cards instead of a naked ~46px strip below them */
   .spaces.section-pad { padding-bottom: 1.7rem; }
   /* two featured plates on phone; the "View all spaces →" link carries the rest */
@@ -949,15 +954,15 @@ html:not(.js) .persona-panel {
 .deco--ink svg :where(path, line, rect, circle, polyline, polygon) { stroke: var(--deep); }
 .deco-skyline svg :where(path, line, rect, circle, polyline, polygon) { stroke: var(--on-navy); }
 
-.deco-facade  { bottom: 0; right: -30px;
-                width: min(38vw, 440px); height: 600px; opacity: 0.15; }
+.deco-facade  { bottom: 0; right: -40px;
+                width: min(42vw, 500px); height: 640px; opacity: 0.30; }
 .deco-plan    { top: clamp(32px, 5vw, 72px); right: 3%;
-                width: min(34vw, 430px); height: 300px; opacity: 0.18; }
-.deco-contour { top: 6%; right: -50px;
-                width: min(32vw, 440px); height: 440px; opacity: 0.17; }
-.deco-skyline { left: 0; right: 0; bottom: 0; width: 100%; height: 118px; opacity: 0.15; }
-.deco-district { left: clamp(-40px, -1.5vw, 0px); bottom: 0;
-                 width: min(48vw, 600px); height: min(56vh, 460px); opacity: 0.15; }
+                width: min(34vw, 430px); height: 300px; opacity: 0.32; }
+.deco-contour { top: 0; right: -140px;
+                width: min(48vw, 740px); height: min(96%, 900px); opacity: 0.13; }
+.deco-skyline { left: 0; right: 0; bottom: 0; width: 100%; height: 104px; opacity: 0.26; }
+.deco-district { left: clamp(-60px, -2vw, -10px); bottom: 0;
+                 width: min(74vw, 940px); height: min(64vh, 540px); opacity: 0.30; }
 
 /* warm depth bloom behind the hero headline */
 .hero::before {
@@ -1094,7 +1099,7 @@ html:not(.js) .persona-panel {
 
 .grain {
   position: fixed; inset: 0; z-index: 4; pointer-events: none;
-  opacity: 0.04; mix-blend-mode: multiply;
+  opacity: 0.065; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 120px 120px;
 }
@@ -1162,7 +1167,7 @@ html:not(.js) .persona-panel {
 .chapters.on-dark .chapters-line { background: rgba(242,241,236,0.22); }
 .chapters.on-dark .chapter::after { border-color: rgba(242,241,236,0.45); background: transparent; }
 .chapters.on-dark .chapter.is-active::after { border-color: var(--gold-2); background: var(--gold-2); box-shadow: 0 0 0 4px rgba(217,178,94,0.2); }
-@media (max-width: 1200px) { .chapters { display: none; } }
+@media (max-width: 1380px) { .chapters { display: none; } }
 
 .k-idx { font-family: var(--mono); font-weight: 500; color: var(--gold-2); margin-right: 0.15rem; letter-spacing: 0; }
 
@@ -1329,7 +1334,7 @@ html:not(.js) .persona-panel {
 .hero--masthead .mh-kicker { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-2); }
 .hero--masthead .mh-meta { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--on-navy-soft); }
 .hero--masthead .mh-center { flex: 1; display: flex; align-items: center; padding: clamp(1.5rem, 4vh, 3rem) 0; }
-.hero--masthead .mh-h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 7vw, 6rem); line-height: 1.02; letter-spacing: -0.018em; color: var(--on-navy); margin: 0; }
+.hero--masthead .mh-h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.3rem, 5vw, 4.5rem); line-height: 1.06; letter-spacing: -0.014em; color: var(--on-navy); margin: 0; text-wrap: balance; }
 .hero--masthead .mh-h1 .hl { display: block; }
 .hero--masthead .mh-h1 em.plain { font-style: italic; color: var(--on-navy); -webkit-text-fill-color: var(--on-navy); }
 .hero--masthead .mh-h1 em.ul { font-style: italic; color: var(--gold-2); position: relative; }
@@ -1343,6 +1348,230 @@ html:not(.js) .persona-panel {
 .hero--masthead .mh-scroll { position: absolute; z-index: 3; left: 50%; bottom: clamp(18px, 3.5vh, 34px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.55rem; font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--on-navy-soft); }
 .hero--masthead .mh-scroll i { width: 1px; height: 32px; background: linear-gradient(var(--gold-2), transparent); transform-origin: top; animation: mhScroll 2.4s var(--ease) infinite; }
 @keyframes mhScroll { 0%, 100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
+
+/* ============================================================
+   HERO — cinematic photographic full-bleed (skyline)
+   ============================================================ */
+.hero--masthead { background: #0C0A07; }
+.hero--masthead .mh-media { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero--masthead .mh-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 52% 42%;
+  filter: saturate(0.9) contrast(1.05) brightness(0.9);
+  transform: scale(1.06); transform-origin: 60% 52%;
+  will-change: transform;
+}
+.hero--masthead .mh-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      rgba(10,8,5,0.82) 0%, rgba(10,8,5,0.34) 25%,
+      rgba(10,8,5,0.30) 46%, rgba(10,8,5,0.54) 72%, rgba(8,6,4,0.92) 100%),
+    linear-gradient(90deg,
+      rgba(10,8,5,0.66) 0%, rgba(10,8,5,0.22) 42%,
+      rgba(10,8,5,0.04) 70%, transparent 100%),
+    radial-gradient(120% 82% at 84% 8%, rgba(199,154,62,0.15), transparent 55%);
+}
+.hero--masthead .mh-meta { white-space: nowrap; }
+/* gilded emphasis word — drawn underline */
+.hero--masthead .mh-h1 em.ul::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -0.04em; height: 2px;
+  background: var(--gold-2); transform: scaleX(0); transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Ken Burns — slow, tasteful zoom/drift */
+  .js .hero--masthead .mh-photo { animation: mhKen 30s ease-in-out infinite alternate; }
+  @keyframes mhKen {
+    from { transform: scale(1.05) translate3d(0, 0, 0); }
+    to   { transform: scale(1.13) translate3d(-1.2%, -1.4%, 0); }
+  }
+  /* Entrance — staggered rise of the three content rows */
+  .js .hero--masthead .mh-top,
+  .js .hero--masthead .mh-center,
+  .js .hero--masthead .mh-bottom { opacity: 0; animation: mhRise 1s var(--ease) forwards; }
+  .js .hero--masthead .mh-top    { animation-delay: 0.15s; }
+  .js .hero--masthead .mh-center { animation-delay: 0.34s; }
+  .js .hero--masthead .mh-bottom { animation-delay: 0.52s; }
+  @keyframes mhRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  .js .hero--masthead .mh-h1 em.ul::after { animation: mhUl 0.7s var(--ease) 1.15s forwards; }
+  @keyframes mhUl { to { transform: scaleX(1); } }
+}
+
+/* Seam: the dark hero flows straight into the dark credentials band */
+.band { border-top: 1px solid rgba(199,154,62,0.22); }
+
+/* ---- Nav: transparent over the cinematic hero, solid once past it ---- */
+.wordmark { transition: color .3s; }
+.nav.over-hero {
+  background: transparent; border-bottom-color: transparent;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.nav.over-hero .wordmark { color: var(--on-navy); }
+.nav.over-hero .wordmark span { color: rgba(242,241,236,0.72); }
+.nav.over-hero .nav-links a { color: rgba(242,241,236,0.84); }
+.nav.over-hero .nav-links a:hover { color: var(--gold-2); }
+.nav.over-hero .nav-cta { color: var(--on-navy) !important; border-color: var(--gold-2); }
+.nav.over-hero .nav-cta:hover { background: var(--gold-2); border-color: var(--gold-2); color: var(--deep) !important; }
+.nav.over-hero .hamburger span { background: var(--on-navy); }
+
+/* ---- Properties dropdown ---- */
+.nav-links { gap: clamp(1.5rem, 2.2vw, 2.5rem); }
+.nav-dd { position: relative; display: inline-flex; align-items: center; }
+.nav-dd-toggle { display: inline-flex; align-items: center; gap: 0.42em; cursor: pointer; }
+.dd-caret { width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 4px solid currentColor; opacity: 0.6; transition: transform .2s var(--ease), opacity .2s; }
+.nav-dd:hover .dd-caret, .nav-dd:focus-within .dd-caret { transform: rotate(180deg); opacity: 1; }
+.nav-dd-menu {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 200px; padding: 0.35rem 0;
+  background: var(--paper); border: 1px solid var(--line-2); border-top: 2px solid var(--gold);
+  box-shadow: 0 22px 46px -20px rgba(29,27,23,0.42);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .2s var(--ease), transform .2s var(--ease);
+  z-index: 130;
+}
+.nav-dd:hover .nav-dd-menu, .nav-dd:focus-within .nav-dd-menu {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateX(-50%) translateY(6px);
+}
+.nav-dd-menu a {
+  display: block; padding: 0.62rem 1.25rem;
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);
+  white-space: nowrap; transition: background .15s, color .15s;
+}
+.nav-dd-menu a:hover { background: var(--paper-3); color: var(--burgundy); }
+/* keep dropdown items dark even when the bar is transparent over the hero */
+.nav.over-hero .nav-dd-menu a { color: var(--ink-soft); }
+.nav.over-hero .nav-dd-menu a:hover { color: var(--burgundy); }
+
+/* mobile drawer sub-items */
+.mobile-menu .mm-sub { padding-left: 1.4rem; font-size: 0.92rem; color: var(--muted); }
+.mobile-menu .mm-sub::before { content: '—'; margin-right: 0.5rem; color: var(--gold); opacity: 0.65; }
+
+/* ---- Process: tenant track (precedes the pinned owner journey) ---- */
+.proc-track { padding-top: clamp(56px, 8vw, 104px); padding-bottom: clamp(8px, 2vw, 24px); position: relative; z-index: 2; }
+.track-eyebrow { display: inline-block; font-family: var(--sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-ink); margin-bottom: 1rem; }
+.track-head { margin-bottom: clamp(2rem, 4vw, 3.2rem); }
+.track-h { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
+.tenant-steps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(2rem, 4vw, 4.5rem); row-gap: 0; }
+.tstep { display: flex; gap: 1.1rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.tstep-num { font-family: var(--mono); font-size: 0.92rem; font-weight: 600; color: var(--gold-ink); letter-spacing: 0.04em; padding-top: 0.28rem; flex-shrink: 0; }
+.tstep-body h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--ink); margin-bottom: 0.4rem; }
+.tstep-body p { font-size: 0.92rem; line-height: 1.6; color: var(--ink-soft); max-width: 40ch; }
+.track-divide { display: flex; align-items: center; justify-content: center; padding-top: clamp(34px, 5vw, 60px); }
+.track-divide span { width: 7px; height: 7px; background: var(--gold-2); transform: rotate(45deg); flex-shrink: 0; }
+.track-divide::before, .track-divide::after { content: ''; height: 1px; width: clamp(44px, 11vw, 120px); background: var(--gold); opacity: 0.5; margin: 0 0.9rem; }
+@media (max-width: 720px) {
+  .tenant-steps { grid-template-columns: 1fr; }
+  .tstep { padding: 1.15rem 0; }
+  .tstep-body h4 { font-size: 1.1rem; }
+}
+
+/* ---- About Us: see "Sheet 01 — the table, drawn" (.about-sheet) below ---- */
+
+/* ---- Shared section eyebrow (wayfinding: carries the nav's names) ---- */
+.kicker { display: inline-block; font-family: var(--sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-ink); margin-bottom: 1rem; }
+
+/* ---- Process: unified umbrella + matched tracks + lease hinge ---- */
+.proc-umbrella { max-width: 880px; margin-left: auto; margin-right: auto; text-align: center; padding-top: clamp(56px, 8vw, 104px); }
+.proc-umbrella-h { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.08; letter-spacing: -0.012em; color: var(--ink); }
+.proc-umbrella-sub { margin: 1.1rem auto 0; max-width: 54ch; font-size: 1rem; line-height: 1.7; color: var(--ink-soft); }
+
+/* tracks are now sub-heads under the umbrella */
+.proc-track { padding-top: clamp(30px, 4.5vw, 60px); }
+.track-h { font-size: clamp(1.5rem, 2.4vw, 2.1rem); }
+.track-head--owner { margin-bottom: clamp(1.3rem, 3vw, 2.1rem); }
+
+/* audience colour-key — occupier = burgundy, owner = gold */
+.track-eyebrow--occupier { color: var(--burgundy); }
+.track-eyebrow--owner { color: var(--gold-ink); }
+.proc-track .tstep-num { color: var(--burgundy); }
+
+/* mirrored closing CTAs (Process finally has a conversion moment) */
+.track-cta { display: inline-block; margin-top: clamp(1.5rem, 3vw, 2.4rem); font-family: var(--sans); font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.78rem 1.55rem; border: 1px solid var(--line-2); background: transparent; transition: border-color .25s, color .25s, background .25s, transform .25s var(--ease); }
+.track-cta:hover { transform: translateY(-2px); }
+.track-cta--occupier { color: var(--burgundy); border-color: rgba(161,60,63,0.45); }
+.track-cta--occupier:hover { background: var(--burgundy); color: var(--paper); border-color: var(--burgundy); }
+.track-cta--owner { color: var(--gold-ink); border-color: rgba(164,126,51,0.55); }
+.track-cta--owner:hover { background: var(--gold); color: var(--paper); border-color: var(--gold); }
+.track-foot { padding-bottom: clamp(44px, 6vw, 84px); }
+
+/* the lease hinge — set-piece divider between the two journeys */
+.track-hinge { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 2rem); padding: clamp(20px, 3.2vw, 36px) 0 clamp(12px, 2vw, 22px); }
+.hinge-rule { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); opacity: 0.45; }
+.track-hinge .hinge-rule:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.hinge-note {
+  flex-shrink: 0; max-width: 42ch; text-align: center;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  line-height: 1.4;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.hinge-note em { font-style: italic; color: var(--gold-ink); }
+@media (max-width: 720px) {
+  .track-hinge { flex-direction: column; gap: 0.9rem; padding: clamp(14px,4vw,22px) 0 clamp(8px,3vw,14px); }
+  .track-hinge .hinge-rule { width: 45%; flex: none; }
+  .hinge-note { font-size: clamp(1rem,4.2vw,1.2rem); }
+}
+
+/* ---- Who We Help: two-column layout (copy left, figure right) ---- */
+.who-panels .persona-grid { grid-template-columns: 1.08fr 0.92fr; gap: clamp(1.5rem,4vw,3.5rem); align-items: center; }
+.who-panels .persona-copy { max-width: 48ch; }
+.persona-eyebrow--occupier { color: var(--burgundy); }
+.persona-eyebrow--owner { color: var(--gold-ink); }
+.persona-cta { display: inline-block; font-family: var(--sans); font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.78rem 1.55rem; border: 1px solid var(--line-2); transition: border-color .25s, color .25s, background .25s, transform .25s var(--ease); }
+.persona-cta:hover { transform: translateY(-2px); }
+.persona-cta--occupier { color: var(--burgundy); border-color: rgba(161,60,63,0.45); }
+.persona-cta--occupier:hover { background: var(--burgundy); color: var(--paper); border-color: var(--burgundy); }
+.persona-cta--owner { color: var(--gold-ink); border-color: rgba(164,126,51,0.55); }
+.persona-cta--owner:hover { background: var(--gold); color: var(--paper); border-color: var(--gold); }
+
+/* dark-section eyebrows use the brighter gold for contrast */
+.spaces .kicker, .cta .kicker { color: var(--gold-2); }
+/* audience colour-key on the client marquee row labels */
+.client-row-label--owner { color: var(--gold-ink); }
+.client-row-label--occupier { color: var(--burgundy); }
+
+/* ---- Visual-richness pass: engraved plate borders + drafting-vellum texture ---- */
+.svc-card { border-color: var(--line-2); }
+.svc-card::before { content: ''; position: absolute; inset: 7px; pointer-events: none; border: 1px solid var(--line); opacity: 0.6; }
+
+/* faint ruled/survey texture so the two barest fields read as fine paper, not blank */
+/* (About ledger texture removed — the section carries a photo plate instead) */
+.proc-section {
+  background-image:
+    repeating-linear-gradient(180deg, transparent 0 63px, rgba(29,27,23,0.045) 63px 64px),
+    repeating-linear-gradient(90deg, transparent 0 63px, rgba(29,27,23,0.045) 63px 64px);
+}
+
+/* ---- Mobile masthead ---- */
+@media (max-width: 900px) {
+  .hero--masthead .mh-h1 { font-size: clamp(2.3rem, 8.4vw, 3.6rem); }
+}
+@media (max-width: 600px) {
+  .hero--masthead { min-height: 100svh; padding: clamp(84px, 15vh, 118px) 0 clamp(30px, 8vh, 60px); }
+  .hero--masthead .mh-meta { display: none; }
+  .hero--masthead .mh-h1 { font-size: clamp(2.15rem, 9vw, 3rem); letter-spacing: -0.01em; }
+  .hero--masthead .mh-lead { font-size: 0.98rem; }
+  .hero--masthead .mh-bottom { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  .hero--masthead .mh-actions { width: 100%; }
+  .hero--masthead .mh-actions .btn-paper,
+  .hero--masthead .mh-actions .btn-ghost { flex: 1; text-align: center; }
+  .hero--masthead .mh-scroll { display: none; }
+  .hero--masthead .mh-photo { object-position: 56% 44%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero--masthead .mh-photo { transform: scale(1.05); animation: none; }
+  .hero--masthead .mh-h1 em.ul::after { transform: scaleX(1); }
+  .hero--masthead .mh-top,
+  .hero--masthead .mh-center,
+  .hero--masthead .mh-bottom { opacity: 1; }
+  .hero--masthead .mh-scroll i { animation: none; }
+}
 
 /* motion — a little, tasteful */
 .js .hero--masthead .mh-h1 .hl { opacity: 0; transform: translateY(30px); animation: mhRise 1s var(--ease) forwards; }
@@ -1374,3 +1603,192 @@ html:not(.js) .persona-panel {
   .js .hero--masthead .mh-h1 em.ul::after { transform: scaleX(1) !important; animation: none !important; }
   .hero--masthead .mh-scroll i { animation: none !important; }
 }
+
+/* ============================================================
+   VISUAL RICHNESS PASS v52
+   ============================================================ */
+
+/* ---- Task 1: Who We Help persona figure — mobile hide (existing rule kept) ---- */
+/* The .persona-fig { display: none } on mobile is in the @max-width:900px block above */
+
+/* ---- About: "Sheet 01 — the table, drawn" (both sides of the table, dimensioned in years) ---- */
+.about { position: relative; }
+.about-sheet { position: relative; padding: clamp(1.7rem, 4vw, 3.4rem); border: 1px solid var(--line-2); background: var(--paper); }
+/* engraved inner plate — same device as .svc-card::before, scaled up */
+.about-sheet::before { content: ''; position: absolute; inset: 8px; pointer-events: none; border: 1px solid var(--line); opacity: 0.7; z-index: 0; }
+/* faint drafting grid */
+.about-sheet::after { content: ''; position: absolute; inset: 8px; pointer-events: none; z-index: 0;
+  background-image: repeating-linear-gradient(to right, transparent 0 47px, var(--line) 47px 48px);
+  opacity: 0.14; }
+.about-sheet > * { position: relative; z-index: 1; }
+
+/* sheet edges — a drawing frame, not a kicker (full-width rule, mono, top + bottom) */
+.sheet-edge { display: flex; align-items: center; gap: clamp(0.8rem, 2vw, 1.4rem); }
+.sheet-edge--top { margin-bottom: clamp(1.8rem, 3.5vw, 2.8rem); }
+.sheet-edge--bot { margin-top: clamp(1.8rem, 3.5vw, 2.8rem); }
+.edge-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.edge-rule { flex: 1; height: 1px; background: var(--line-2); }
+
+.about-title { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3.8vw, 3.1rem); line-height: 1.1; letter-spacing: -0.014em; color: var(--ink); text-wrap: balance; max-width: 20em; margin: 0 0 clamp(2rem, 4vw, 3.2rem); }
+
+/* the plan */
+.about-plan-wrap { margin: 0 0 clamp(2rem, 4vw, 3.2rem); }
+.plan-side { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 0.4rem 0.7rem; text-align: center; }
+.plan-side--occ { margin-bottom: 0.5rem; }
+.plan-side--own { margin-top: 0.5rem; }
+.ps-k { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.plan-side--occ .ps-k { color: var(--burgundy); }
+.plan-side--own .ps-k { color: var(--gold-ink); }
+.ps-v { font-family: var(--body); font-style: italic; font-size: 0.9rem; color: var(--muted); }
+
+.about-table { display: block; width: 100%; height: auto; overflow: visible; }
+.about-table .ln { fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.about-table .seat { stroke-width: 1.5; stroke-linecap: round; }
+.about-table .seat--occ { stroke: var(--burgundy); }
+.about-table .seat--own { stroke: var(--gold); }
+.about-table .seat--bbre { stroke: var(--gold-ink); stroke-width: 1.4; stroke-linecap: round; }
+.about-table .seatmark { fill: var(--gold-2); }
+.about-table .seat-lbl { font-family: var(--mono); font-size: 15px; letter-spacing: 0.06em; fill: var(--gold-ink); }
+
+.about-dim { display: block; width: 100%; height: auto; overflow: visible; margin-top: clamp(0.9rem, 1.8vw, 1.35rem); }
+.about-dim .ext { stroke: var(--ink); stroke-width: 1; opacity: 0.3; }
+.about-dim .dimline { stroke: var(--ink); stroke-width: 1; opacity: 0.4; }
+.about-dim .ticks { fill: none; stroke: var(--ink); stroke-width: 1; opacity: 0.32; }
+.about-dim .arw { fill: var(--ink); opacity: 0.5; }
+
+.plan-years { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: clamp(0.9rem, 1.8vw, 1.35rem); padding: 0 20.37%; }
+.plan-years span { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.plan-years .py-end { color: var(--ink-soft); }
+.plan-years .py-mid { color: var(--muted); letter-spacing: 0.14em; }
+
+/* general notes + title block */
+.about-notes-row { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: clamp(2rem, 4.5vw, 4rem); align-items: start; padding-top: clamp(1.6rem, 3vw, 2.4rem); border-top: 1px solid var(--line); }
+.notes-h { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.9rem; }
+.about-notes p:not(.notes-h) { font-family: var(--body); font-size: clamp(1rem, 1.15vw, 1.1rem); line-height: 1.72; color: var(--ink-soft); max-width: 58ch; }
+.about-notes p:not(.notes-h) + p { margin-top: 1rem; }
+
+.about-block { border: 1px solid var(--line-2); align-self: start; background: color-mix(in srgb, var(--paper) 55%, transparent); }
+.ab-head { padding: 0.72rem 0.9rem; border-bottom: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 0.16rem; }
+.ab-firm { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+.ab-sub { font-family: var(--sans); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-ink); }
+.ab-rows { margin: 0; }
+.ab-row { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 0.7rem; padding: 0.58rem 0.9rem; }
+.ab-row + .ab-row { border-top: 1px solid var(--line); }
+.ab-row dt { font-family: var(--sans); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); align-self: center; }
+.ab-row dd { margin: 0; font-family: var(--body); font-size: 0.9rem; line-height: 1.4; color: var(--ink); }
+.ab-row .fig { font-family: var(--mono); letter-spacing: -0.01em; }
+.ab-row .ab-lines { display: flex; flex-direction: column; gap: 0.12rem; line-height: 1.3; }
+
+@media (max-width: 820px) {
+  .about-sheet { border-left: none; border-right: none; padding: clamp(1.4rem, 5vw, 2rem) 0; }
+  .about-sheet::before { display: none; }
+  .about-sheet::after { left: 0; right: 0; }
+  .about-notes-row { grid-template-columns: 1fr; gap: 1.6rem; }
+  .about-title { font-size: clamp(1.7rem, 6.4vw, 2.4rem); }
+  .about-block { max-width: 460px; }
+}
+@media (max-width: 520px) {
+  .plan-years .py-mid { display: none; }
+}
+
+/* draw-on motion — the SVG is fully drawn by default; this only enhances */
+@media (prefers-reduced-motion: no-preference) {
+  .about-table .ln { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .about-table .seatmark { transform-box: fill-box; transform-origin: center; }
+  .about-plan-wrap.is-drawing .tbl { animation: aboutDraw 0.6s var(--ease) both; }
+  .about-plan-wrap.is-drawing .seat--occ { animation: aboutDraw 0.5s var(--ease) both; animation-delay: calc(0.5s + var(--i) * 0.06s); }
+  .about-plan-wrap.is-drawing .seat--own { animation: aboutDraw 0.5s var(--ease) both; animation-delay: calc(0.72s + var(--i) * 0.06s); }
+  .about-plan-wrap.is-drawing .seat--bbre { animation: aboutDraw 0.5s var(--ease) both; animation-delay: 1.05s; }
+  .about-plan-wrap.is-drawing .seatmark { animation: aboutMark 0.45s var(--ease) both; animation-delay: 1.2s; }
+  .about-plan-wrap.is-drawing .dimg { animation: aboutWipe 0.7s var(--ease) both; animation-delay: 1.1s; }
+}
+@keyframes aboutDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes aboutMark { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: none; } }
+@keyframes aboutWipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* ---- Task 4: Coverage map corridor animation + caption ---- */
+.ncr-corridors { opacity: 0; transition: opacity 0.9s var(--ease) 1.1s; }
+.ncr-hatch     { opacity: 0; transition: opacity 0.7s var(--ease) 0.6s; }
+.ncr-corridor-labels { transition: opacity 0.6s var(--ease) 1.5s; }
+.locations-right.in-view .ncr-corridors { opacity: 1; }
+.locations-right.in-view .ncr-hatch     { opacity: 1; }
+.locations-right.in-view .ncr-corridor-labels { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .ncr-corridors, .ncr-hatch, .ncr-corridor-labels { opacity: 1; transition: none; }
+}
+
+.coverage-figure { margin: 0; }
+.coverage-cap {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-top: 0.6rem; margin-bottom: 1.5rem;
+  font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em;
+}
+
+/* ---- Task 5: Editorial margin markers (desktop only, ≥1440px) ---- */
+.margin-marker {
+  display: none;
+}
+@media (min-width: 1440px) {
+  .margin-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    position: absolute;
+    /* sit in the right margin between the container edge and the chapter rail (which is at right:26px).
+       Container max is 1280px so at 1440px the right margin is 80px wide.
+       We park at right:56px — well inside the margin, clear of the 26px rail. */
+    right: 56px;
+    top: clamp(56px, 8vw, 96px);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .mm-num {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .mm-label {
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold-ink);
+    opacity: 0.65;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    /* vertical line above the label */
+  }
+  .mm-label::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 18px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 0 auto 0.35rem;
+  }
+  /* Dark-section marker — lighter text */
+  .margin-marker--dark .mm-num  { color: var(--on-navy-soft); }
+  .margin-marker--dark .mm-label { color: var(--gold-2); }
+  .margin-marker--dark .mm-label::before { background: var(--gold-2); }
+}
+
+/* ---- Task 6: Service card architectural glyphs ---- */
+.svc-glyph {
+  position: absolute;
+  bottom: clamp(0.9rem, 1.5vw, 1.3rem);
+  right: clamp(0.9rem, 1.5vw, 1.3rem);
+  width: 30px;
+  height: 30px;
+  color: var(--ink);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.svc-card:hover .svc-glyph { opacity: 0.32; }
