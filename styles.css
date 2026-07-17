@@ -2013,3 +2013,26 @@ html:not(.js) .persona-panel {
     transition: none;
   }
 }
+
+/* --------------------------------------------------------------
+   MOBILE TYPE ROBUSTNESS — headings/labels must REFLOW, not shatter,
+   on narrow phones with large device text-scaling. Smaller display
+   sizes, gentle label tracking, chevron pinned to the top.
+   -------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .mh-h1 { font-size: clamp(1.6rem, 7.2vw, 2rem) !important; line-height: 1.14 !important; }
+  .section-head h2, .about-title, .proc-umbrella-h, .track-h,
+  .cta-inner h2, .spaces-head h2 {
+    font-size: clamp(1.42rem, 6.2vw, 1.85rem) !important; line-height: 1.16 !important;
+  }
+  .persona-h { font-size: clamp(1.08rem, 5vw, 1.32rem) !important; margin-bottom: 0.5rem !important; line-height: 1.18 !important; }
+  /* kill the wide uppercase tracking that shatters labels onto 3 lines */
+  .kicker, .mh-kicker, .track-eyebrow, .about-eyebrow, .notes-h,
+  .client-row-label, .persona-eyebrow, .edge-label, .band-item span {
+    letter-spacing: 0.05em !important;
+  }
+  .persona-eyebrow { font-size: 0.62rem !important; }
+  /* chevron pinned to the top of a (possibly tall) heading, not floating mid-way */
+  .js .who-trigger { align-items: flex-start !important; }
+  .js .who-trigger .step-chevron { align-self: flex-start !important; margin-top: 0.15rem; }
+}
