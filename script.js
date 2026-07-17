@@ -300,3 +300,98 @@ if ('IntersectionObserver' in window) {
 
 // (Removed dead hero-parallax IIFE — it queried .mh-bg, which doesn't exist; the hero
 //  uses .mh-photo with a CSS Ken Burns animation, so a JS transform would have fought it.)
+
+// ---- Process: phone-only accordion (≤600px) ----
+// Collapses step descriptions; tap title row to expand. Desktop untouched.
+(function () {
+  if (!window.matchMedia('(max-width: 600px)').matches) return;
+
+  // SVG chevron (down arrow) injected into each step title row
+  function chevronSVG() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('class', 'step-chevron');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', '1.6');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-linejoin', 'round');
+    path.setAttribute('d', 'M5 8l5 5 5-5');
+    svg.appendChild(path);
+    return svg;
+  }
+
+  function toggleStep(step, open) {
+    step.classList.toggle('is-open', open);
+    const trigger = step.querySelector('[role="button"], button');
+    if (trigger) trigger.setAttribute('aria-expanded', String(open));
+  }
+
+  function makeToggleable(step, triggerEl) {
+    triggerEl.setAttribute('role', 'button');
+    triggerEl.setAttribute('tabindex', '0');
+    triggerEl.setAttribute('aria-expanded', 'false');
+    triggerEl.appendChild(chevronSVG());
+
+    triggerEl.addEventListener('click', function () {
+      const isOpen = step.classList.contains('is-open');
+      toggleStep(step, !isOpen);
+    });
+
+    triggerEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const isOpen = step.classList.contains('is-open');
+        toggleStep(step, !isOpen);
+      }
+    });
+  }
+
+  // ---- Part I: tenant steps (.tstep) ----
+  // Each .tstep = .tstep-num + .tstep-body (h4 + p)
+  // Wrap .tstep-num + h4 in a trigger div; leave p outside (it collapses via CSS)
+  const tsteps = Array.from(document.querySelectorAll('.tstep'));
+  tsteps.forEach(function (step, i) {
+    const num = step.querySelector('.tstep-num');
+    const body = step.querySelector('.tstep-body');
+    if (!num || !body) return;
+
+    const h4 = body.querySelector('h4');
+    if (!h4) return;
+
+    // Build trigger element containing num + h4
+    const trigger = document.createElement('div');
+    trigger.className = 'tstep-trigger';
+
+    // Move num and h4 into the trigger
+    step.insertBefore(trigger, num);
+    trigger.appendChild(num);
+    trigger.appendChild(h4);
+
+    makeToggleable(step, trigger);
+
+    // Open the first step in this track
+    if (i === 0) toggleStep(step, true);
+  });
+
+  // ---- Part II: owner panels (.j-panel) ----
+  // Each .j-panel = h4 (with ::before counter) + p
+  const jpanels = Array.from(document.querySelectorAll('.j-panel'));
+  jpanels.forEach(function (panel, i) {
+    const h4 = panel.querySelector('h4');
+    if (!h4) return;
+
+    // Wrap h4 in a trigger div
+    const trigger = document.createElement('div');
+    trigger.className = 'j-panel-trigger';
+    panel.insertBefore(trigger, h4);
+    trigger.appendChild(h4);
+
+    makeToggleable(panel, trigger);
+
+    // Open the first owner panel
+    if (i === 0) toggleStep(panel, true);
+  });
+})();
