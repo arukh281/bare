@@ -394,4 +394,23 @@ if ('IntersectionObserver' in window) {
     // Open the first owner panel
     if (i === 0) toggleStep(panel, true);
   });
+
+  // ---- Part III: Who We Help personas (.who-slide) ----
+  // .who-slide = .persona-eyebrow + .persona-h (title row) then .persona-lead + .persona-foot (collapse)
+  const whoSlides = Array.from(document.querySelectorAll('.who-slide'));
+  whoSlides.forEach(function (slide, i) {
+    const eyebrow = slide.querySelector('.persona-eyebrow');
+    const h = slide.querySelector('.persona-h');
+    if (!eyebrow || !h) return;
+    const trigger = document.createElement('div');
+    trigger.className = 'who-trigger';
+    const txt = document.createElement('div');
+    txt.className = 'who-trigger-txt';
+    eyebrow.parentNode.insertBefore(trigger, eyebrow);
+    txt.appendChild(eyebrow);
+    txt.appendChild(h);
+    trigger.appendChild(txt);
+    makeToggleable(slide, trigger);   // adds role/aria/keyboard + chevron
+    if (i === 0) toggleStep(slide, true);
+  });
 })();
