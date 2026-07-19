@@ -414,3 +414,50 @@ if ('IntersectionObserver' in window) {
     if (i === 0) toggleStep(slide, true);
   });
 })();
+
+/* ===== THE POCKET LEDGER — mobile rail, enquire sheet, side-key ===== */
+(function(){
+  var root = document.documentElement;
+
+  /* --- brass rail: mark the current page + slide the diamond pin to it --- */
+  var rail = document.querySelector('.rail');
+  if (rail) {
+    var diamond = rail.querySelector('.rail-diamond');
+    var tabs = Array.prototype.slice.call(rail.querySelectorAll('.rail-tab'));
+    var p = location.pathname;
+    var page = /process/.test(p) ? 'process' : /spaces/.test(p) ? 'spaces' : 'home';
+    var pinTo = null;
+    tabs.forEach(function(t){ if (t.getAttribute('data-page') === page){ t.classList.add('is-active'); pinTo = t; } });
+    if (!pinTo) pinTo = tabs[0];
+    var place = function(){
+      if (!diamond || !pinTo) return;
+      var t = pinTo.getBoundingClientRect(), r = rail.getBoundingClientRect();
+      if (t.width) diamond.style.left = (t.left - r.left + t.width / 2 - 4) + 'px';
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('load', place);
+  }
+
+  /* --- enquire bottom sheet --- */
+  var sheet = document.getElementById('enquireSheet');
+  var openBtn = document.querySelector('[data-enquire]');
+  if (sheet && openBtn) {
+    var openSheet = function(){
+      try { sheet.showModal(); } catch(e){ sheet.setAttribute('open',''); }
+      requestAnimationFrame(function(){ sheet.classList.add('rise'); });
+    };
+    var closeSheet = function(){
+      sheet.classList.remove('rise');
+      setTimeout(function(){ try { sheet.close(); } catch(e){ sheet.removeAttribute('open'); } }, 300);
+    };
+    openBtn.addEventListener('click', openSheet);
+    var cl = sheet.querySelector('[data-sheet-close]');
+    if (cl) cl.addEventListener('click', closeSheet);
+    sheet.addEventListener('click', function(e){
+      var box = sheet.querySelector('.sheet-inner');
+      if (box && !box.contains(e.target)) closeSheet();
+    });
+    sheet.addEventListener('cancel', function(e){ e.preventDefault(); closeSheet(); });
+  }
+})();
